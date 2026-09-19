@@ -38,8 +38,27 @@ FROM base
 
 # Install packages needed for deployment
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y curl libjemalloc2 libsqlite3-0 libvips redis && \
+    apt-get install --no-install-recommends -y \
+      curl libjemalloc2 libsqlite3-0 libvips redis \
+      xz-utils poppler-utils \
+      texlive-latex-base texlive-latex-recommended texlive-fonts-recommended \
+      fonts-dejavu fonts-liberation && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
+
+# Rendering toolchain: D2 (TALA) and Typst. pdflatex + pdftocairo come from
+# texlive/poppler above. ARCH is the build target (amd64 or arm64).
+ARG TARGETARCH
+RUN set -eux; \
+    d2arch=$([ "$TARGETARCH" = "arm64" ] && echo arm64 || echo amd64); \
+    typstarch=$([ "$TARGETARCH" = "arm64" ] && echo aarch64 || echo x86_64); \
+    curl -fsSL "https://github.com/terrastruct/d2/releases/download/v0.9.0/d2-v0.9.0-linux-${d2arch}.tar.gz" -o /tmp/d2.tgz; \
+    tar -xzf /tmp/d2.tgz -C /tmp; \
+    install -m 0755 /tmp/d2-v0.9.0/bin/d2 /usr/local/bin/d2; \
+    curl -fsSL "https://github.com/typst/typst/releases/download/v0.15.1/typst-${typstarch}-unknown-linux-musl.tar.xz" -o /tmp/typst.tar.xz; \
+    tar -xJf /tmp/typst.tar.xz -C /tmp; \
+    install -m 0755 "/tmp/typst-${typstarch}-unknown-linux-musl/typst" /usr/local/bin/typst; \
+    rm -rf /tmp/d2.tgz /tmp/d2-v0.9.0 /tmp/typst.tar.xz "/tmp/typst-${typstarch}-unknown-linux-musl"; \
+    d2 --version; typst --version; pdflatex --version | head -1; pdftocairo -v 2>&1 | head -1
 
 # Copy built artifacts: gems, application
 COPY --from=build "${BUNDLE_PATH}" "${BUNDLE_PATH}"
