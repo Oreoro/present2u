@@ -13,6 +13,10 @@ Rouge; inline maths renders in the browser with KaTeX.
 ## Quick start
 
 ```console
+$ git clone https://github.com/Oreoro/present2u && cd present2u/writebook
+```
+
+```console
 $ bin/setup                      # install deps, prepare db
 $ bin/rails server -p 3010       # app at http://localhost:3010
 

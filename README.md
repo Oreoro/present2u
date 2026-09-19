@@ -66,7 +66,7 @@ site at [p2u.focuslab.pk](https://p2u.focuslab.pk) is just a front door
 (landing, agent docs, a rendered deck and a discovery MCP).
 
 ```console
-$ git clone <your-fork-url> present2u
+$ git clone https://github.com/Oreoro/present2u
 $ cd present2u/writebook
 $ bin/setup                  # install gems, prepare the database
 $ bin/rails server -p 3010   # http://localhost:3010

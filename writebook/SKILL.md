@@ -20,7 +20,7 @@ the app, the decks and the slides.
 ## Setup (from scratch)
 
 ```console
-$ git clone <repo> && cd present2u/writebook
+$ git clone https://github.com/Oreoro/present2u && cd present2u/writebook
 $ bin/setup                 # bundle, db:prepare
 $ bin/rails server -p 3010  # http://localhost:3010
 $ bin/p2u doctor            # verify d2 / typst / pdflatex
