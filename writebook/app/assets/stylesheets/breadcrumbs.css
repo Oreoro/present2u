@@ -1,0 +1,31 @@
+.breadcrumbs {
+  align-items: center;
+  color: var(--color-subtle-dark);
+  display: flex;
+  gap: 0.15rem;
+  margin-inline: auto;
+  min-width: 0;
+
+  > * {
+    flex-shrink: 1;
+    max-inline-size: 40ch;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  a:not([class]) {
+    color: var(--color-subtle-dark);
+    text-decoration: none;
+  }
+
+  strong {
+    color: var(--color-ink);
+    font-weight: 500;
+  }
+
+  input {
+    field-sizing: content;
+    min-inline-size: 8ch;
+  }
+}

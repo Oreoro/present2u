@@ -1,0 +1,351 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://present2u.example/schemas/p2u-1.schema.json",
+  "title": "P2U/1 presentation manifest",
+  "description": "A declarative technical presentation. Compiled by present2u into slides with LaTeX, D2 diagrams and highlighted code.",
+  "type": "object",
+  "required": [
+    "deck",
+    "slides"
+  ],
+  "properties": {
+    "p2u": {
+      "type": [
+        "string",
+        "integer"
+      ],
+      "description": "Manifest language version. Currently 1.",
+      "default": "1"
+    },
+    "deck": {
+      "$ref": "#/$defs/deck"
+    },
+    "slides": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/slide"
+      }
+    }
+  },
+  "$defs": {
+    "deck": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Stable deck identity for plan/apply."
+        },
+        "title": {
+          "type": "string"
+        },
+        "subtitle": {
+          "type": "string"
+        },
+        "author": {
+          "type": "string"
+        },
+        "aspect": {
+          "enum": [
+            "16:9",
+            "4:3",
+            "16:10"
+          ],
+          "default": "16:9"
+        },
+        "theme": {
+          "oneOf": [
+            {
+              "enum": [
+                "writebook",
+                "black",
+                "blue",
+                "green",
+                "magenta",
+                "orange",
+                "violet",
+                "white"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "preset": {
+                  "enum": [
+                    "writebook",
+                    "black",
+                    "blue",
+                    "green",
+                    "magenta",
+                    "orange",
+                    "violet",
+                    "white"
+                  ]
+                },
+                "tokens": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "defaults": {
+          "type": "object",
+          "properties": {
+            "layout": {
+              "$ref": "#/$defs/layout"
+            },
+            "transition": {
+              "type": "string"
+            },
+            "diagram": {
+              "type": "object",
+              "additionalProperties": true
+            },
+            "math": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "additionalProperties": true
+        },
+        "meta": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    },
+    "layout": {
+      "type": "string",
+      "enum": [
+        "title",
+        "section",
+        "content",
+        "two-column",
+        "compare",
+        "code-split",
+        "full-code",
+        "diagram",
+        "equation",
+        "table",
+        "metric-row",
+        "timeline",
+        "quote",
+        "image",
+        "image-grid",
+        "references",
+        "recap",
+        "qa",
+        "end",
+        "divider",
+        "page",
+        "picture",
+        "typst"
+      ]
+    },
+    "blockKind": {
+      "type": "string",
+      "enum": [
+        "markdown",
+        "code",
+        "diagram",
+        "equation",
+        "table",
+        "chart",
+        "image",
+        "video",
+        "metric",
+        "quote",
+        "callout",
+        "definition",
+        "references",
+        "notes-only",
+        "spacer"
+      ]
+    },
+    "slide": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Stable slide identity."
+        },
+        "layout": {
+          "$ref": "#/$defs/layout"
+        },
+        "type": {
+          "type": "string",
+          "description": "Legacy alias for layout."
+        },
+        "title": {
+          "type": "string"
+        },
+        "subtitle": {
+          "type": "string"
+        },
+        "body": {
+          "type": "string",
+          "description": "Markdown shorthand for a single markdown block."
+        },
+        "blocks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/block"
+          }
+        },
+        "left": {
+          "$ref": "#/$defs/blockOrString"
+        },
+        "right": {
+          "$ref": "#/$defs/blockOrString"
+        },
+        "code": {
+          "$ref": "#/$defs/blockOrString"
+        },
+        "prose": {
+          "$ref": "#/$defs/blockOrString"
+        },
+        "notes": {
+          "type": "string",
+          "description": "Speaker notes."
+        },
+        "theme": {
+          "type": "string",
+          "description": "Section theme override."
+        },
+        "sketch": {
+          "type": "boolean"
+        },
+        "reveal": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "caption": {
+          "type": "string"
+        },
+        "image_url": {
+          "type": "string",
+          "format": "uri"
+        }
+      },
+      "additionalProperties": true
+    },
+    "blockOrString": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/block"
+        },
+        {
+          "type": "string"
+        }
+      ]
+    },
+    "block": {
+      "type": "object",
+      "required": [
+        "kind"
+      ],
+      "properties": {
+        "kind": {
+          "$ref": "#/$defs/blockKind"
+        },
+        "body": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "lang": {
+          "type": "string"
+        },
+        "engine": {
+          "type": "string",
+          "enum": [
+            "d2",
+            "d2-sketch",
+            "tala",
+            "typst",
+            "mermaid",
+            "graphviz",
+            "tikz"
+          ]
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "src": {
+          "type": "string"
+        },
+        "image_url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "alt": {
+          "type": "string"
+        },
+        "caption": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "attribution": {
+          "type": "string"
+        },
+        "tone": {
+          "type": "string"
+        },
+        "term": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "value": {
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "columns": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "rows": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          }
+        },
+        "markdown": {
+          "type": "string"
+        },
+        "options": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    }
+  }
+}

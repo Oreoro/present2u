@@ -1,0 +1,71 @@
+/* Typst slides and the Typst source editor. */
+.page--typst {
+  align-items: center;
+  display: flex;
+  inline-size: 100%;
+  justify-content: center;
+}
+
+.page--typst svg {
+  block-size: auto;
+  inline-size: 100%;
+  max-block-size: 100%;
+  max-inline-size: 100%;
+}
+
+.toc__leaf--typst .toc__thumbnail img {
+  block-size: auto;
+  inline-size: 100%;
+  max-block-size: 100%;
+  max-inline-size: 100%;
+}
+
+.typst-editor__grid {
+  display: grid;
+  gap: var(--block-space);
+  grid-template-columns: 1fr 1fr;
+}
+
+@media (max-width: 70ch) {
+  .typst-editor__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.typst-editor__pane {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  min-inline-size: 0;
+}
+
+.typst-editor__label {
+  color: var(--color-subtle-dark);
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.typst-editor__input {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  min-block-size: 24rem;
+  white-space: pre;
+}
+
+.typst-editor__preview {
+  align-items: center;
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-subtle);
+  border-radius: var(--radius-sm);
+  display: flex;
+  justify-content: center;
+  min-block-size: 24rem;
+  overflow: auto;
+  padding: var(--block-space-half);
+}
+
+.typst-editor__preview svg {
+  block-size: auto;
+  max-inline-size: 100%;
+}

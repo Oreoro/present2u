@@ -1,0 +1,14 @@
+{
+  "name": "present2u-cloudflare",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Edge site + remote MCP for Present2u",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "tail": "wrangler tail"
+  },
+  "devDependencies": {
+    "wrangler": "^4"
+  }
+}

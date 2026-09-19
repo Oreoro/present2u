@@ -1,0 +1,72 @@
+.web-image-picker {
+  background-color: var(--color-subtle-light);
+  border-radius: var(--radius-sm);
+  margin-block: var(--block-space);
+  padding: var(--inline-space);
+}
+
+.web-image-picker__status {
+  margin-block: var(--block-space-half) 0;
+}
+
+.web-image-picker__status.is-error {
+  color: var(--color-negative);
+}
+
+.web-image-picker__results {
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  margin-block-start: var(--block-space-half);
+}
+
+.web-image-picker__results:empty {
+  display: none;
+}
+
+.web-image-picker__result {
+  aspect-ratio: 4 / 3;
+  background-color: var(--color-bg);
+  border: 2px solid transparent;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  overflow: hidden;
+  padding: 0;
+}
+
+.web-image-picker__result.is-selected {
+  border-color: var(--color-link);
+}
+
+.web-image-picker__result img {
+  block-size: 100%;
+  inline-size: 100%;
+  object-fit: cover;
+}
+
+.speaker-notes summary {
+  cursor: pointer;
+}
+
+.present-button {
+  white-space: nowrap;
+}
+
+.slide-hint {
+  color: var(--color-subtle-dark);
+  margin: 0;
+  text-align: center;
+}
+
+.slide-hint kbd {
+  background-color: var(--color-subtle-light);
+  border: 1px solid var(--color-subtle-dark);
+  border-radius: var(--radius-sm);
+  font-family: ui-monospace, monospace;
+  font-size: 0.85em;
+  padding: 0.05em 0.35em;
+}
+
+.slide-hint b {
+  color: var(--color-ink);
+}

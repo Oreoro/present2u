@@ -1,0 +1,90 @@
+:root {
+  /* Named color values — Notion-inspired palette: warm ink, white paper,
+     warm-gray borders and the Notion blue accent. */
+  --lch-black: 32.89% 0.0107 91.66;      /* #37352F — primary text */
+  --lch-white: 100% 0 0;                 /* #FFFFFF — page background */
+  --lch-gray-light: 97.56% 0.0026 106.45;/* #F7F7F5 — subtle surface */
+  --lch-gray: 93.35% 0.0027 106.45;      /* #E9E9E7 — hairline border */
+  --lch-gray-dark: 56.92% 0.0047 91.48;  /* #787774 — secondary text */
+  --lch-blue: 60.58% 0.1674 252.7;       /* #2383E2 — Notion blue */
+  --lch-blue-light: 91.15% 0.0236 231.86;/* #D3E5EF — selection */
+  --lch-blue-dark: 82% 0.06 240;
+  --lch-orange: 65.94% 0.1586 55.7;      /* #D9730D */
+  --lch-red: 60.15% 0.1724 25.79;        /* #D44C47 */
+  --lch-green: 55.79% 0.0848 158.39;     /* #448361 */
+  --lch-green-light: 95.77% 0.0112 141.26;/* #EDF3EC */
+  --lch-always-black: 0% 0 0;
+  --lch-always-white: 100% 0 0;
+  --lch-yellow: 96.41% 0.0326 91.67;     /* #FBF3DB — highlight */
+
+  /* Abstractions */
+  --color-negative: oklch(var(--lch-red));
+  --color-positive: oklch(var(--lch-green));
+  --color-positive-light: oklch(var(--lch-green-light));
+  --color-bg: oklch(var(--lch-white));
+  --color-ink: oklch(var(--lch-black));
+  --color-ink-reversed: oklch(var(--lch-white));
+  --color-link: oklch(var(--lch-blue));
+  --color-subtle-light: oklch(var(--lch-gray-light));
+  --color-subtle: oklch(var(--lch-gray));
+  --color-subtle-dark: oklch(var(--lch-gray-dark));
+  --color-selected: oklch(var(--lch-blue-light));
+  --color-selected-dark: oklch(var(--lch-blue-dark));
+  --color-marker: oklch(var(--lch-orange));
+  --color-always-black: oklch(var(--lch-always-black));
+  --color-always-white: oklch(var(--lch-always-white));
+  --color-highlight: oklch(var(--lch-yellow));
+
+  /* Notion shape + elevation */
+  --radius-xs: 3px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-round: 9999px;
+  --border-hairline: 1px solid var(--color-subtle);
+  --color-hover: oklch(var(--lch-black) / 0.06);
+  --color-hover-strong: oklch(var(--lch-black) / 0.11);
+  --color-border-strong: oklch(var(--lch-black) / 0.16);
+  --shadow-sm: 0 1px 2px rgba(15, 15, 15, 0.06);
+  --shadow-md: 0 1px 3px rgba(15, 15, 15, 0.1), 0 0 0 1px rgba(15, 15, 15, 0.04);
+  --shadow-lg: 0 4px 12px rgba(15, 15, 15, 0.1), 0 0 0 1px rgba(15, 15, 15, 0.05);
+  --shadow-xl: 0 12px 32px rgba(15, 15, 15, 0.14), 0 0 0 1px rgba(15, 15, 15, 0.05);
+}
+
+/* Dark theme is opt-in only — light is the default regardless of OS setting. */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --lch-black: 92% 0 0;                /* near-white text */
+  --lch-white: 21.34% 0 0;             /* #191919 — Notion dark bg */
+  --lch-gray-light: 26.45% 0 0;        /* #252525 — panel */
+  --lch-gray: 30.52% 0 0;              /* #2F2F2F — border */
+  --lch-gray-dark: 68.95% 0 0;         /* #9B9B9B — secondary text */
+  --lch-blue: 66.4% 0.1008 238.15;     /* #529CCA */
+  --lch-blue-light: 33.81% 0.0389 242.13;/* #253A4A */
+  --lch-blue-dark: 40% 0.06 245;
+  --lch-red: 66.78% 0.1482 23.85;      /* #E16B67 */
+  --lch-green: 66.01% 0.1124 147.88;   /* #5FA56A */
+  --lch-green-light: 28% 0.03 150;
+  --lch-yellow: 36.14% 0.0475 81.91;   /* #4A3B1F */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 1px 3px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.06);
+  --shadow-xl: 0 12px 32px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+.colorize--white {
+  filter: invert(1);
+}
+
+.colorize--black {
+  filter: invert(0);
+}
+
+:root[data-theme="dark"] .colorize--white {
+  filter: invert(0);
+}
+
+:root[data-theme="dark"] .colorize--black {
+  filter: invert(1);
+}

@@ -1,0 +1,12 @@
+<nav class="book__nav flex flex-column align-center gap-half justify-center">
+  <div class="flex align-center gap justify-center">
+    <button type="button" class="btn btn--art txt-medium" data-action="present#start">
+      <%= image_tag "present.svg", aria: { hidden: true }, size: 24 %>
+      <span>Present</span>
+    </button>
+
+    <%= link_to_next_leafable(leaf) %>
+  </div>
+
+  <p class="slide-hint txt-small">Press <kbd>F</kbd> to present</p>
+</nav>

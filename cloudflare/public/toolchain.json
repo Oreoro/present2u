@@ -1,0 +1,94 @@
+{
+  "p2u": {
+    "version": "1"
+  },
+  "markdown": {
+    "engine": "redcarpet",
+    "client": "markdown-it",
+    "version": "3.6.0"
+  },
+  "highlight": {
+    "engine": "rouge",
+    "version": "4.5.1"
+  },
+  "math": {
+    "engine": "katex"
+  },
+  "typst": {
+    "engine": "typst",
+    "available": true,
+    "version": "typst 0.15.1 (unknown commit)"
+  },
+  "diagram": {
+    "engine": "d2",
+    "layouts": [
+      "tala",
+      "elk",
+      "dagre"
+    ],
+    "styles": [
+      "default",
+      "sketch"
+    ],
+    "available": true,
+    "version": "v0.9.0"
+  },
+  "latex": {
+    "engine": "pdflatex",
+    "binary": {
+      "available": true,
+      "version": "pdfTeX 3.141592653-2.6-1.40.27 (TeX Live 2025)"
+    },
+    "converter": {
+      "available": true,
+      "version": "pdftocairo version 26.08.0"
+    }
+  },
+  "layouts": [
+    "title",
+    "section",
+    "content",
+    "two-column",
+    "compare",
+    "code-split",
+    "full-code",
+    "diagram",
+    "equation",
+    "table",
+    "metric-row",
+    "timeline",
+    "quote",
+    "image",
+    "image-grid",
+    "references",
+    "recap",
+    "qa",
+    "end"
+  ],
+  "blocks": [
+    "markdown",
+    "code",
+    "diagram",
+    "equation",
+    "table",
+    "chart",
+    "image",
+    "video",
+    "metric",
+    "quote",
+    "callout",
+    "definition",
+    "references",
+    "notes-only",
+    "spacer"
+  ],
+  "diagram_engines": [
+    "d2",
+    "d2-sketch",
+    "tala",
+    "typst",
+    "mermaid",
+    "graphviz",
+    "tikz"
+  ]
+}

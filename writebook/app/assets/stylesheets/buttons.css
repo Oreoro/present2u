@@ -1,0 +1,188 @@
+:root {
+  --btn-size: 2.25em;
+}
+
+.btn {
+  --transition: 20ms ease-in;
+  --hover-size: 0;
+
+  align-items: center;
+  background-color: var(--btn-background, transparent);
+  border-radius: var(--btn-border-radius, var(--radius-sm));
+  border: var(--btn-border-size, 1px) solid var(--btn-border-color, var(--color-border-strong));
+  box-shadow: var(--btn-shadow, var(--shadow-sm));
+  color: var(--btn-color, var(--color-ink));
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 0.95em;
+  font-weight: 500;
+  gap: var(--btn-gap, 0.4em);
+  justify-content: center;
+  padding: var(--btn-padding, 0.3em 0.75em);
+  pointer-events: auto;
+  transition:
+    background-color var(--transition),
+    border var(--transition),
+    color var(--transition),
+    box-shadow var(--transition),
+    opacity var(--transition);
+
+  img {
+    -webkit-touch-callout: none;
+
+    user-select: none;
+  }
+
+  /* Default icon styles */
+  &:where(:has(img, svg)) {
+    text-align: start;
+
+    img, svg {
+      block-size: var(--btn-icon-size, 1.15em);
+      inline-size: var(--btn-icon-size, 1.15em);
+      max-inline-size: unset;
+    }
+
+    img:not([class]) {
+      filter: invert(0);
+    }
+
+    :root[data-theme="dark"] & img:not([class]) {
+      filter: invert(1);
+    }
+  }
+
+  /* Icon-only buttons — Notion's square icon button */
+  &.btn--circle,
+  &:where(:has(.for-screen-reader):has(img, svg)) {
+    --btn-border-radius: var(--radius-sm);
+    --btn-border-size: 0;
+    --btn-padding: 0;
+    --btn-shadow: none;
+
+    aspect-ratio: 1;
+    block-size: var(--btn-size);
+    display: grid;
+    inline-size: var(--btn-size);
+    place-items: center;
+
+    > * {
+      grid-area: 1/1;
+    }
+  }
+
+  /* With radios and checkboxes */
+  &:has(input[type=radio], input[type=checkbox]) {
+    :is(input[type=radio], input[type=checkbox]) {
+      appearance: none;
+      block-size: calc(var(--btn-size) - var(--outline-size));
+      border-radius: var(--btn-border-radius);
+      cursor: pointer;
+      display: flex;
+      inline-size: calc(var(--btn-size) - var(--outline-size));
+      margin: 0;
+      padding: 0;
+    }
+
+    img.checked {
+      display: none;
+    }
+  }
+
+  &:has(input:checked)  {
+    --btn-background: var(--color-selected);
+    --btn-color: var(--color-link);
+    --outline-color: var(--color-link);
+
+    img {
+      filter: none;
+    }
+
+    img.checked {
+      display: block;
+    }
+  }
+
+  &[disabled],
+  &:has([disabled]),
+  [disabled] &[type=submit],
+  &[type=submit]:disabled {
+    cursor: not-allowed;
+    opacity: 0.35;
+    pointer-events: none;
+  }
+
+  @media (hover: hover) {
+    &:where(:not(:active):not([disabled]):hover) {
+      background-color: var(--btn-background-hover, var(--color-hover));
+    }
+  }
+
+  &:where(:not([disabled]):active) {
+    background-color: var(--btn-background-active, var(--color-hover-strong));
+  }
+
+  @media print {
+    display: none;
+  }
+}
+
+/* Variants */
+.btn--link,
+.btn--reversed {
+  --btn-background: var(--color-link);
+  --btn-background-hover: oklch(var(--lch-blue) / 0.88);
+  --btn-background-active: oklch(var(--lch-blue) / 0.78);
+  --btn-border-color: transparent;
+  --btn-border-size: 0;
+  --btn-color: var(--color-always-white);
+  --btn-shadow: var(--shadow-sm);
+  --outline-color: var(--color-link);
+
+  font-weight: 600;
+}
+
+.btn--negative {
+  --btn-background: var(--color-negative);
+  --btn-background-hover: oklch(var(--lch-red) / 0.88);
+  --btn-background-active: oklch(var(--lch-red) / 0.78);
+  --btn-border-color: transparent;
+  --btn-border-size: 0;
+  --btn-color: var(--color-always-white);
+  --outline-color: var(--color-negative);
+}
+
+.btn--positive {
+  --btn-background: var(--color-positive);
+  --btn-background-hover: oklch(var(--lch-green) / 0.88);
+  --btn-background-active: oklch(var(--lch-green) / 0.78);
+  --btn-border-color: transparent;
+  --btn-border-size: 0;
+  --btn-color: var(--color-always-white);
+  --outline-color: var(--color-positive);
+}
+
+.btn--placeholder {
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.btn--plain {
+  --btn-border-radius: var(--radius-sm);
+  --btn-border-size: 0;
+  --btn-icon-size: 100%;
+  --btn-padding: 0;
+  --btn-shadow: none;
+}
+
+.btn--small {
+  font-size: 0.8em;
+}
+
+.btn--success {
+  animation: success 1s ease-out;
+
+  img {
+    animation: zoom-fade 300ms ease-out;
+  }
+}

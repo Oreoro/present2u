@@ -1,0 +1,520 @@
+/* Deck library — the home page for presentations. */
+#main.decks {
+  inline-size: 100%;
+  margin-inline: 0;
+  max-inline-size: none;
+  padding: 0;
+  text-align: start;
+}
+
+.decks {
+  --deck-gap: clamp(1rem, 2.4cqi, 2rem);
+
+  inline-size: 100%;
+  margin-inline: auto;
+  max-inline-size: 1400px;
+  padding: var(--deck-gap);
+}
+
+.decks__nav {
+  inline-size: 100%;
+}
+
+.decks__hero {
+  margin-block: clamp(2rem, 9vh, 5.5rem) clamp(1.5rem, 4vh, 3rem);
+  text-align: center;
+}
+
+.decks__hero h1 {
+  font-size: clamp(1.9rem, 4.5vw, 3.25rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  margin: 0 0 0.35em;
+}
+
+.decks__hero p {
+  color: var(--color-subtle-dark);
+  font-size: clamp(1rem, 1.6vw, 1.25rem);
+  line-height: 1.5;
+  margin: 0 auto;
+  max-inline-size: 62ch;
+}
+
+.decks__grid {
+  display: grid;
+  gap: var(--deck-gap);
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+}
+
+.decks__empty {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-block-end: var(--deck-gap);
+  text-align: center;
+}
+
+.decks__empty p {
+  color: var(--color-subtle-dark);
+  margin: 0;
+}
+
+/* Deck card ---------------------------------------------------------- */
+.deck-card {
+  background-color: var(--color-bg);
+  border: var(--border-hairline);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: box-shadow 150ms ease, transform 150ms ease;
+}
+
+@media (hover: hover) {
+  .deck-card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+  }
+}
+
+.deck-card__preview {
+  aspect-ratio: 16 / 9;
+  background-color: var(--deck-accent, var(--color-subtle-light));
+  display: block;
+  overflow: hidden;
+  position: relative;
+  text-decoration: none;
+}
+
+.deck-card__cover {
+  block-size: 100%;
+  inline-size: 100%;
+  object-fit: cover;
+}
+
+.deck-card__placeholder {
+  align-items: center;
+  color: var(--color-always-white);
+  display: flex;
+  font-size: clamp(1.1rem, 2.4cqi, 1.6rem);
+  font-weight: 600;
+  inline-size: 100%;
+  justify-content: center;
+  line-height: 1.15;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.deck-card__count {
+  background-color: rgb(0 0 0 / 0.55);
+  border-radius: 2em;
+  bottom: 0.6rem;
+  color: #fff;
+  font-size: 0.72rem;
+  padding: 0.2em 0.7em;
+  position: absolute;
+  right: 0.6rem;
+}
+
+.deck-card__body {
+  flex-grow: 1;
+  padding: 0.9rem 1rem 0.4rem;
+}
+
+.deck-card__title {
+  font-size: 1.1rem;
+  line-height: 1.25;
+  margin: 0;
+}
+
+.deck-card__title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+@media (hover: hover) {
+  .deck-card__title a:hover {
+    text-decoration: underline;
+  }
+}
+
+.deck-card__subtitle {
+  color: var(--color-subtle-dark);
+  font-size: 0.9rem;
+  margin: 0.25rem 0 0;
+}
+
+.deck-card__actions {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+  padding: 0 1rem 1rem;
+}
+
+/* Theme accents */
+.deck-card__preview.theme--blue { --deck-accent: var(--theme-color--blue); }
+.deck-card__preview.theme--orange { --deck-accent: var(--theme-color--orange); }
+.deck-card__preview.theme--magenta { --deck-accent: var(--theme-color--magenta); }
+.deck-card__preview.theme--green { --deck-accent: var(--theme-color--green); }
+.deck-card__preview.theme--violet { --deck-accent: var(--theme-color--violet); }
+.deck-card__preview.theme--white { --deck-accent: var(--color-subtle); }
+.deck-card__preview.theme--white .deck-card__placeholder { color: var(--color-always-black); }
+.deck-card__preview.theme--black { --deck-accent: var(--color-always-black); }
+
+/* New deck ----------------------------------------------------------- */
+.deck-card--new {
+  border-style: dashed;
+  justify-content: center;
+  min-block-size: 15rem;
+}
+
+.deck-card__new-link {
+  align-items: center;
+  color: var(--color-subtle-dark);
+  display: flex;
+  flex-direction: column;
+  font-size: 1.05rem;
+  font-weight: 600;
+  gap: 0.5rem;
+  justify-content: center;
+  padding: 2rem;
+  text-decoration: none;
+}
+
+@media (hover: hover) {
+  .deck-card__new-link:hover {
+    color: var(--color-link);
+  }
+}
+
+/* =====================================================================
+   Art system — colour fields and motion inspired by Bauhaus / Albers,
+   Kandinsky geometry and Turrell light. All motion honours reduced-motion.
+   ===================================================================== */
+:root {
+  /* Muted, Notion-adjacent art palette (deck cover gradients). */
+  --art-violet: oklch(52% 0.12 300);
+  --art-magenta: oklch(58% 0.13 350);
+  --art-cyan: oklch(72% 0.09 230);
+  --art-blue: oklch(58% 0.12 245);
+  --art-amber: oklch(75% 0.12 75);
+  --art-lime: oklch(72% 0.1 150);
+  --art-coral: oklch(65% 0.14 35);
+}
+
+/* Hero --------------------------------------------------------------- */
+.art-hero {
+  isolation: isolate;
+  overflow: hidden;
+  position: relative;
+}
+
+.art-hero::before {
+  animation: art-drift 26s ease-in-out infinite alternate;
+  background:
+    radial-gradient(38% 55% at 18% 28%, var(--art-violet) 0%, transparent 62%),
+    radial-gradient(42% 55% at 82% 18%, var(--art-cyan) 0%, transparent 62%),
+    radial-gradient(48% 60% at 62% 92%, var(--art-magenta) 0%, transparent 62%),
+    radial-gradient(35% 50% at 92% 78%, var(--art-amber) 0%, transparent 62%);
+  content: "";
+  filter: blur(48px);
+  inset: -35%;
+  opacity: 0.42;
+  position: absolute;
+  z-index: -2;
+}
+
+.decks__eyebrow {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  margin: 0 0 0.75rem;
+  opacity: 0.6;
+  text-transform: uppercase;
+}
+
+.art-shapes {
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: -1;
+}
+
+.art-shape {
+  animation: art-float 14s ease-in-out infinite;
+  animation-delay: var(--d, 0s);
+  background: var(--c);
+  block-size: var(--s);
+  inline-size: var(--s);
+  left: var(--x);
+  opacity: 0.8;
+  position: absolute;
+  top: var(--y);
+}
+
+.art-shape--circle { border-radius: 50%; }
+
+.art-shape--ring {
+  background: transparent;
+  border: 0.55rem solid var(--c);
+  border-radius: 50%;
+}
+
+.art-shape--triangle {
+  background: transparent;
+  block-size: 0;
+  border-block-end: var(--s) solid var(--c);
+  border-inline: calc(var(--s) / 2) solid transparent;
+  inline-size: 0;
+}
+
+.art-shape--bar {
+  block-size: calc(var(--s) / 3);
+  border-radius: 1rem;
+}
+
+/* CTA buttons -------------------------------------------------------- */
+.btn--art {
+  --btn-background: var(--color-link);
+  --btn-background-hover: oklch(var(--lch-blue) / 0.88);
+  --btn-background-active: oklch(var(--lch-blue) / 0.78);
+  --btn-border-color: transparent;
+  --btn-border-size: 0;
+  --btn-color: var(--color-always-white);
+  --btn-shadow: var(--shadow-sm);
+
+  border: none;
+  font-weight: 600;
+}
+
+.decks__cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  margin-block-start: 1.75rem;
+}
+
+/* Deck card colour art ---------------------------------------------- */
+.deck-card__art {
+  background-image: var(--art-gradient, linear-gradient(135deg, var(--art-cyan), var(--art-violet)));
+  background-size: 180% 180%;
+  inset: 0;
+  position: absolute;
+  transition: background-position 500ms ease;
+  z-index: 0;
+}
+
+.deck-card__cover {
+  position: relative;
+  z-index: 1;
+}
+
+.deck-card__art::after {
+  animation: art-spin 10s linear infinite;
+  background: conic-gradient(from 0deg, transparent 0deg, rgb(255 255 255 / 0.4) 40deg, transparent 90deg);
+  content: "";
+  inset: -40%;
+  opacity: 0;
+  position: absolute;
+  transition: opacity 300ms ease;
+}
+
+.deck-card:hover .deck-card__art { background-position: 100% 100%; }
+.deck-card:hover .deck-card__art::after { opacity: 0.5; }
+
+.deck-card__preview { background-image: var(--art-gradient); }
+
+.deck-card__preview.theme--blue { --art-gradient: linear-gradient(135deg, var(--art-cyan), var(--art-blue) 55%, var(--art-violet)); }
+.deck-card__preview.theme--violet { --art-gradient: linear-gradient(135deg, var(--art-violet), var(--art-magenta) 55%, var(--art-coral)); }
+.deck-card__preview.theme--magenta { --art-gradient: linear-gradient(135deg, var(--art-magenta), var(--art-coral) 55%, var(--art-amber)); }
+.deck-card__preview.theme--orange { --art-gradient: linear-gradient(135deg, var(--art-amber), var(--art-coral) 50%, var(--art-magenta)); }
+.deck-card__preview.theme--green { --art-gradient: linear-gradient(135deg, var(--art-lime), var(--art-cyan) 55%, var(--art-blue)); }
+.deck-card__preview.theme--black { --art-gradient: linear-gradient(135deg, oklch(28% 0.06 285), oklch(16% 0.04 260)); }
+.deck-card__preview.theme--white { --art-gradient: linear-gradient(135deg, oklch(97.56% 0.0026 106.45), oklch(91.15% 0.0236 231.86)); }
+
+.deck-card__overlay {
+  align-items: flex-start;
+  background: linear-gradient(to top, rgb(0 0 0 / 0.55), transparent 65%);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  inset: auto 0 0 0;
+  justify-content: flex-end;
+  padding: 1rem;
+  position: absolute;
+  z-index: 2;
+}
+
+.deck-card__banner-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.deck-card__preview.theme--white .deck-card__overlay { background: linear-gradient(to top, rgb(255 255 255 / 0.75), transparent 65%); color: var(--color-always-black); }
+
+/* Entrance + hover --------------------------------------------------- */
+.deck-card {
+  animation: art-rise 620ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.decks__grid > *:nth-child(1) { animation-delay: 30ms; }
+.decks__grid > *:nth-child(2) { animation-delay: 90ms; }
+.decks__grid > *:nth-child(3) { animation-delay: 150ms; }
+.decks__grid > *:nth-child(4) { animation-delay: 210ms; }
+.decks__grid > *:nth-child(5) { animation-delay: 270ms; }
+.decks__grid > *:nth-child(6) { animation-delay: 330ms; }
+.decks__grid > *:nth-child(7) { animation-delay: 390ms; }
+.decks__grid > *:nth-child(8) { animation-delay: 450ms; }
+.decks__grid > *:nth-child(n + 9) { animation-delay: 510ms; }
+
+@media (hover: hover) {
+  .deck-card:hover {
+    box-shadow: 0 1.5em 3em rgb(0 0 0 / 0.18);
+    transform: translateY(-4px) scale(1.01);
+  }
+}
+
+/* Template gallery --------------------------------------------------- */
+.template-card {
+  background-color: var(--color-bg);
+  border: var(--border-hairline);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: box-shadow 150ms ease, transform 150ms ease;
+}
+
+@media (hover: hover) {
+  .template-card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+  }
+}
+
+.template-card__art {
+  aspect-ratio: 16 / 9;
+  background-image: var(--art-gradient);
+  background-size: 160% 160%;
+  position: relative;
+  transition: background-position 500ms ease;
+}
+
+.template-card__art::before {
+  background: radial-gradient(circle at 28% 28%, rgb(255 255 255 / 0.35), transparent 52%);
+  content: "";
+  inset: 0;
+  position: absolute;
+}
+
+.template-card:hover .template-card__art { background-position: 100% 100%; }
+
+.template-card__body {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  gap: 0.35rem;
+  padding: 1rem 1.1rem 1.2rem;
+}
+
+.template-card__title { font-size: 1.05rem; font-weight: 600; margin: 0; }
+.template-card__description { color: var(--color-subtle-dark); font-size: 0.9rem; line-height: 1.45; margin: 0; }
+.template-card__meta { font-size: 0.78rem; letter-spacing: 0.04em; opacity: 0.6; text-transform: uppercase; }
+.template-card__actions { margin-block-start: auto; padding-block-start: 0.85rem; }
+
+/* Motion ------------------------------------------------------------- */
+@keyframes art-drift {
+  from { transform: translate3d(-4%, -2%, 0) rotate(0deg) scale(1.05); }
+  to { transform: translate3d(4%, 3%, 0) rotate(10deg) scale(1.16); }
+}
+
+@keyframes art-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-16px) rotate(9deg); }
+}
+
+@keyframes art-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes art-hue {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes art-rise {
+  from { opacity: 0; transform: translateY(18px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .art-hero::before,
+  .art-shape,
+  .btn--art,
+  .deck-card,
+  .deck-card__art::after,
+  .deck-card__art {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Generative cover art ---------------------------------------------- */
+.deck-card__art svg,
+.template-card__art svg,
+.deck-hero__art svg {
+  block-size: 100%;
+  display: block;
+  inline-size: 100%;
+}
+
+.deck-card__art::before,
+.template-card__art::after,
+.deck-hero__art::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  content: "";
+  inset: 0;
+  mix-blend-mode: overlay;
+  opacity: 0.14;
+  pointer-events: none;
+  position: absolute;
+  z-index: 3;
+}
+
+.deck-hero__slide {
+  overflow: hidden;
+  position: relative;
+}
+
+.deck-hero__art {
+  inset: 0;
+  position: absolute;
+  z-index: 0;
+}
+
+.deck-hero__slide > :not(.deck-hero__art) {
+  position: relative;
+  z-index: 1;
+}
+
+.template-card__art {
+  overflow: hidden;
+}
+/* Templates index heading (no hero banner). */
+.decks__title {
+  font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+  letter-spacing: -0.02em;
+  margin-block: var(--block-space) var(--block-space-half);
+  text-align: center;
+}
+
+.decks__lede {
+  color: var(--color-subtle-dark);
+  margin-block: 0 var(--block-space);
+  text-align: center;
+}

@@ -1,0 +1,43 @@
+p2u: 1
+deck:
+  title: Raft consensus
+  subtitle: Understandable distributed consensus
+  theme: violet
+  meta:
+    venue: Distributed Systems Reading Group
+slides:
+  - layout: section
+    title: Raft
+    body: Consensus, made understandable
+    notes: Set up the problem. Three parts — leader election, log replication, safety.
+
+  - layout: content
+    title: Leader election
+    body: |
+      A **leader** is elected by a majority of the cluster.
+
+      $$ \text{term} = \text{term} + 1 $$
+
+      - Followers become candidates after an election timeout.
+      - A candidate wins with a majority of votes.
+    notes: Majority quorum is the key invariant.
+
+  - layout: diagram
+    title: Log replication
+    body: The leader appends entries and replicates them to followers.
+    blocks:
+      - kind: diagram
+        lang: d2
+        source: |
+          direction: right
+          leader: "Leader" { shape: hexagon }
+          follower: "Follower" { shape: cylinder }
+          leader -> follower: "AppendEntries"
+    notes: An entry is committed once a majority has stored it.
+
+  - layout: equation
+    title: Election safety
+    blocks:
+      - kind: equation
+        source: \sum_{i=1}^{n} \mathrm{votes}_i > \frac{n}{2}
+    notes: At most one leader per term.

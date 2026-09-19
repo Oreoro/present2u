@@ -1,0 +1,62 @@
+p2u: 1
+deck:
+  title: Present2u
+  subtitle: Technical presentations, beautifully made
+  theme: writebook
+  meta:
+    product: Present2u
+slides:
+  - layout: title
+    title: Present2u
+    subtitle: Technical presentations, beautifully made
+
+  - layout: content
+    title: Author in the Format You Want
+    body: |
+      Write slides in **Markdown** with `$math$`, or drop into **Typst** for
+      full typesetting control — both are first-class.
+
+      - Markdown: fast, familiar, great for prose and code
+      - Typst: precise layout, native math, one file per slide
+      - Switch per deck with a single field
+
+  - layout: content
+    title: Diagrams and Math, Rendered for You
+    body: |
+      Diagrams and equations are compiled server-side and embedded as crisp
+      SVG, so they look right on any screen.
+
+      - **D2** diagrams, including the hand-drawn sketch style
+      - **LaTeX** equations via pdflatex, or **Typst** math
+      - Inline `$...$` rendered with KaTeX in the browser
+
+  - layout: diagram
+    title: One Deck, Many Engines
+    blocks:
+      - kind: diagram
+        lang: d2-sketch
+        source: |
+          direction: right
+          author: Author
+          present2u: "Present2u"
+          out: "Deck"
+          author -> present2u: "Markdown / Typst"
+          present2u -> out: "SVG + HTML"
+          out -> author: "Present / Export"
+
+  - layout: content
+    title: Present and Share
+    body: |
+      Everything you build can be presented live or exported as a single file.
+
+      - Fullscreen 16:9 presenting with notes and an overview
+      - Export a self-contained HTML deck, or print to PDF
+      - Long slides scroll instead of being clipped
+
+  - layout: recap
+    title: Get Started
+    body: |
+      - Start from a template or a blank deck
+      - Write Markdown or Typst — your choice
+      - Add D2 diagrams and LaTeX or Typst math
+      - Present it, or export and share it

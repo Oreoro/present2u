@@ -1,0 +1,28 @@
+# Local machine / editor
+.DS_Store
+opencode.json
+.mcp.json
+*.log
+
+# Rails app runtime
+writebook/.env*
+writebook/log/*
+writebook/tmp/*
+!writebook/tmp/.keep
+!writebook/tmp/pids/
+!writebook/tmp/pids/.keep
+writebook/storage/*
+!writebook/storage/.keep
+writebook/db/*.sqlite3
+writebook/public/assets/
+writebook/public/packs/
+writebook/node_modules/
+writebook/.bundle/
+
+# Edge worker
+cloudflare/node_modules/
+cloudflare/.wrangler/
+cloudflare/.dev.vars
+
+# Generated exports (regenerate with `bin/p2u export`)
+/*.html

@@ -1,0 +1,53 @@
+<% content_for(:title) { @user.name } %>
+
+<% content_for :header do %>
+  <nav>
+    <%= link_to users_path, class: "btn" do %>
+      <%= image_tag "arrow-left.svg", aria: { hidden: true }, size: 24 %>
+      <span class="for-screen-reader">Go back</span>
+    <% end %>
+
+    <div class="breadcrumbs">
+      <%= render "books/index_link" %>
+      <span class="flex-item-no-shrink">▸</span>
+      <%= link_to users_path, class: "btn borderless txt-small flex-item-no-shrink" do %>
+        <%= image_tag "people.svg", aria: { label: "People" }, size: 19, class: "colorize--black", alt: "People" %>
+        <span class="for-screen-reader">Manage people</span>
+      <% end %>
+      <span class="flex-item-no-shrink">▸</span>
+      <%= @user.name %>
+    </div>
+  </nav>
+<% end %>
+
+<div class="panel margin-block-double shadow center">
+  <h2 class="margin-none-block-end"><%= @user.name %></h2>
+  <p class="margin-none-block-start"><%= mail_to @user.email_address %></p>
+
+  <% if Current.user.can_administer? %>
+    <hr class="full-width margin-block-double" aria-hidden="true">
+    <%= render "users/transfer", user: @user %>
+  <% end %>
+</div>
+
+<% if @user == Current.user %>
+  <div class="panel margin-block-double shadow center">
+    <h2 class="margin-none-block-end">API token</h2>
+    <p class="txt-small">Create decks from agents and scripts with <code>Authorization: Bearer &lt;token&gt;</code>. Endpoints are described at <%= link_to "/api", api_docs_path %>.</p>
+
+    <input type="text" class="input full-width" value="<%= @user.api_token %>" readonly aria-label="API token">
+
+    <div class="flex align-center gap justify-center margin-block-start">
+      <%= button_to_copy_to_clipboard(@user.api_token) do %>
+        <%= image_tag "copy-paste.svg", aria: { hidden: true }, size: 24, class: "colorize--black" %>
+        <span class="for-screen-reader">Copy API token</span>
+      <% end %>
+
+      <%= button_to user_api_token_path(@user), method: :post, class: "btn txt-small",
+            data: { turbo_confirm: "Regenerate the API token? Existing integrations will stop working." } do %>
+        <%= image_tag "refresh.svg", aria: { hidden: true }, size: 24, class: "colorize--black" %>
+        <span>Regenerate</span>
+      <% end %>
+    </div>
+  </div>
+<% end %>

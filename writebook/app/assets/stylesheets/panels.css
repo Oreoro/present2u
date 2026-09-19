@@ -1,0 +1,19 @@
+.panel {
+  background-color: var(--color-bg);
+  border: var(--border-hairline);
+  color: var(--color-ink);
+  border-radius: var(--panel-border-radius, var(--radius-lg));
+  box-shadow: var(--panel-shadow, var(--shadow-md));
+  inline-size: var(--panel-size, 40ch);
+  max-inline-size: calc(100% - var(--inline-space) * 2);
+  padding: calc(var(--block-space) * 2);
+  position: relative;
+
+}
+
+.panel__close {
+  border: 0;
+  font-size: 0.6rem;
+  inset: calc(var(--block-space) / 3) calc(var(--block-space) / 3) auto auto;
+  position: absolute;
+}

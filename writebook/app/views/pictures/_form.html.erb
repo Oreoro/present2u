@@ -1,0 +1,20 @@
+<%= leafable_edit_form(picture, id: "leafable-editor") do |form| %>
+  <% if picture.errors.any? %>
+    <p class="web-image-picker__status is-error"><%= picture.errors.full_messages.to_sentence %></p>
+  <% end %>
+
+  <label class="input input--file input--picture unpad" data-controller="upload-preview">
+    <%= image_tag picture.image.attached? ? picture.large_image : "default-picture.webp", alt: "Picture",
+        data: { upload_preview_target: "image", image_search_target: "preview" } %>
+    <%= form.file_field :image, class: "input", accept: "image/png, image/jpeg, image/jpg, image/webp", autofocus: true,
+        data: { upload_preview_target: "input", action: "upload-preview#previewImage" } %>
+  </label>
+
+  <%= render "pictures/web_image_picker", form: form %>
+
+  <div class="flex align-center gap margin-block">
+    <%= translation_button(:picture_caption) %>
+    <%= form.text_field :caption, class: "input", placeholder: "Picture caption" %>
+  </div>
+  <%= form.submit "Save", hidden: true, data: { upload_preview_target: "button" } %>
+<% end %>

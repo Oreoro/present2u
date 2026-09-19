@@ -1,0 +1,41 @@
+<% content_for(:title) { "Templates | Present2u" } %>
+<% @layout_class = "decks" %>
+
+<% content_for :header do %>
+  <nav class="decks__nav">
+    <%= link_to root_path, class: "btn" do %>
+      <%= image_tag "arrow-left.svg", aria: { hidden: true }, size: 24 %>
+      <span class="for-screen-reader">Back to decks</span>
+    <% end %>
+
+    <span class="btn btn--placeholder" aria-hidden="true"></span>
+
+    <%= link_to root_path, class: "product__wordmark btn btn--plain txt-large center" do %>
+      <%= image_tag "present.svg", aria: { hidden: true }, size: 24, class: "colorize--black" %>
+      <span>Present2u</span>
+    <% end %>
+
+    <span class="btn btn--placeholder" aria-hidden="true"></span>
+  </nav>
+<% end %>
+
+<section class="decks">
+  <h1 class="decks__title">Templates</h1>
+  <p class="decks__lede">Pick a structure and get a real deck you can edit, extend and present.</p>
+
+  <div class="decks__grid">
+    <% @templates.each do |template| %>
+      <article class="template-card">
+        <div class="template-card__body">
+          <span class="template-card__meta"><%= pluralize(template[:slides], "slide") %></span>
+          <h2 class="template-card__title"><%= template[:title] %></h2>
+          <p class="template-card__description"><%= template[:description] %></p>
+
+          <div class="template-card__actions">
+            <%= button_to "Use template", deck_template_path(template[:key]), class: "btn btn--art txt-small" %>
+          </div>
+        </div>
+      </article>
+    <% end %>
+  </div>
+</section>

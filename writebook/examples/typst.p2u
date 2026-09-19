@@ -1,0 +1,78 @@
+p2u: 1
+deck:
+  title: Typst First-Class
+  subtitle: Typesetting math and code with Typst
+  theme: writebook
+  meta:
+    engine: typst
+slides:
+  - layout: title
+    title: Typst First-Class
+    subtitle: Typesetting math, code and layout with Typst
+    notes: |
+      Typst is a modern typesetting system. In Present2u it is a first-class
+      render engine next to D2 and LaTeX: any ```typst fence is compiled to an
+      SVG and embedded in the slide.
+
+  - layout: content
+    title: What Is Typst?
+    body: |
+      Typst is a typesetting system with a friendly syntax. Inline math uses the
+      same dollar delimiters as LaTeX, so $E = m c^2$ and $q = \lfloor N/2
+      \rfloor + 1$ render with KaTeX right in the slide.
+
+      - Markup, math and code live in one document
+      - Compiles in milliseconds
+      - Great for equations, tables and small figures
+
+  - layout: diagram
+    title: Typst Equation
+    blocks:
+      - kind: diagram
+        lang: typst
+        source: |
+          #set page(width: auto, height: auto, margin: 10pt)
+          #set text(size: 18pt)
+          $ q = floor(N/2) + 1 $
+    notes: A Typst snippet compiled to SVG and inlined into the slide.
+
+  - layout: diagram
+    title: Typst Document
+    blocks:
+      - kind: diagram
+        lang: typst
+        source: |
+          #set page(width: auto, height: auto, margin: 12pt)
+          #set text(size: 15pt)
+          = Raft
+          #align(center)[_Consensus, made understandable_]
+
+          A *leader* is elected by a majority.
+
+          $ "term" = "term" + 1 $
+    notes: Typst can lay out headings, emphasis and math together.
+
+  - layout: content
+    title: Fenced Typst in Markdown
+    body: |
+      Drop a Typst block straight into a slide:
+
+      ```typst
+      #set page(width: auto, height: auto, margin: 10pt)
+      $ integral_0^1 x^2 dif x = 1/3 $
+      ```
+
+      Code fences still get syntax highlighting:
+
+      ```python
+      def quorum(n):
+          return n // 2 + 1
+      ```
+
+  - layout: recap
+    title: Recap
+    body: |
+      - ```typst``` fences compile to SVG server-side
+      - Inline math renders with KaTeX via markdown-it
+      - Typst, D2 and LaTeX all live side by side
+      - The exported deck is still a single self-contained HTML file

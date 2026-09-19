@@ -1,0 +1,134 @@
+<% content_for(:title) { page_title(@leaf, @book) } %>
+<% @layout_class = "slide" %>
+
+<% content_for :head do %>
+  <%= tag.link rel: "alternate", type: "text/markdown", href: leafable_slug_path(@leaf, format: :md) %>
+<% end %>
+
+<% content_for :header do %>
+  <%= render "leaves/header", book: @book, leaf: @leaf %>
+<% end %>
+
+<% content_for :sidebar do %>
+  <%= render "leaves/sidebar", book: @book %>
+<% end %>
+
+<% first_leaf = @leaves.first %>
+<% last_leaf = @leaves.last %>
+<% previous_url = @previous_leaf ? leafable_slug_path(@previous_leaf) : book_slug_path(@book) %>
+<% next_url = @next_leaf ? leafable_slug_path(@next_leaf) : book_slug_path(@book) %>
+
+<div class="slide-stage <%= "theme--sketch" if @leaf.sketch? %> p2u-layout--<%= @leaf.layout.presence || "content" %>"
+     data-present-target="stage"
+     data-layout="<%= @leaf.layout.presence || "content" %>"
+     data-controller="math"
+     data-action="click->present#stageClick"
+     data-index="<%= @slide_index %>"
+     data-total="<%= @slide_total %>"
+     data-prev-url="<%= previous_url %>"
+     data-next-url="<%= next_url %>"
+     data-first-url="<%= first_leaf ? leafable_slug_path(first_leaf) : book_slug_path(@book) %>"
+     data-last-url="<%= last_leaf ? leafable_slug_path(last_leaf) : book_slug_path(@book) %>">
+
+  <% unless @leaf.section? || @leaf.typst? %>
+    <span class="slide-stage__kicker"><%= @leaf.title %></span>
+  <% end %>
+
+  <div class="slide-stage__content">
+  <% if @leaf.section? %>
+    <% section_title = @leaf.title.to_s.strip %>
+    <% section_body = @leaf.section.body.to_s.strip %>
+    <div class="page--section <%= "theme--dark" if @leaf.leafable.theme == "dark" %>">
+      <div class="page--section__inner">
+        <h1 class="page--section__title"><%= section_title %></h1>
+        <% if section_body.present? && section_body != section_title %>
+          <div class="page--section__subtitle"><%= highlight_searched_content @leaf, simple_format(section_body), params[:search] %></div>
+        <% end %>
+      </div>
+    </div>
+  <% elsif @leaf.typst? %>
+    <div class="page--typst">
+      <%= raw @leaf.typst.rendered_svg %>
+    </div>
+  <% elsif @leaf.page? %>
+    <div class="page--page" data-controller="scroll-to-highlight">
+      <%= highlight_searched_content @leaf, sanitize_content(@leaf.page.body.to_html), params[:search] %>
+    </div>
+  <% elsif @leaf.picture? %>
+    <figure class="page--picture flex flex-column align-center gap margin-none">
+      <% if @leaf.picture.image.attached? %>
+        <%= link_to rails_blob_path(@leaf.picture.image), data: {
+              action: "lightbox#open:prevent",
+              lightbox_target: "image",
+              lightbox_url_value: rails_blob_path(@leaf.picture.image, disposition: "attachment", only_path: true) } do %>
+          <%= image_tag @leaf.picture.large_image, loading: "lazy" %>
+        <% end %>
+      <% else %>
+        <%= image_tag "default-picture.webp", alt: "No image uploaded", loading: "lazy" %>
+      <% end %>
+
+      <figcaption>
+        <%= simple_format @leaf.picture.caption %>
+      </figcaption>
+    </figure>
+  <% end %>
+  </div>
+
+  <span class="slide-stage__number"><%= @slide_index %> / <%= @slide_total %></span>
+</div>
+
+<div class="present-progress" data-present-target="progress" aria-hidden="true"></div>
+
+<div class="present-hud" data-present-ignore>
+  <button type="button" class="btn" data-action="present#previous">
+    <%= image_tag "arrow-left.svg", aria: { hidden: true }, size: 20 %>
+    <span class="for-screen-reader">Previous slide</span>
+  </button>
+
+  <span class="present-hud__counter" data-present-target="counter"><%= @slide_index %> / <%= @slide_total %></span>
+
+  <button type="button" class="btn" data-action="present#next">
+    <%= image_tag "arrow-right.svg", aria: { hidden: true }, size: 20 %>
+    <span class="for-screen-reader">Next slide</span>
+  </button>
+
+  <button type="button" class="btn" data-action="present#overviewToggle">
+    <%= image_tag "view-grid.svg", aria: { hidden: true }, size: 20 %>
+    <span class="for-screen-reader">Slide overview (O)</span>
+  </button>
+
+  <button type="button" class="btn" data-action="present#notesToggle">
+    <%= image_tag "write.svg", aria: { hidden: true }, size: 20 %>
+    <span class="for-screen-reader">Speaker notes (N)</span>
+  </button>
+
+  <button type="button" class="btn" data-action="present#fullscreenToggle">
+    <%= image_tag "expand.svg", aria: { hidden: true }, size: 20 %>
+    <span class="for-screen-reader">Fullscreen (F)</span>
+  </button>
+
+  <button type="button" class="btn" data-action="present#stop">
+    <span>Exit</span>
+    <span class="for-screen-reader">Exit presentation (Esc)</span>
+  </button>
+</div>
+
+<aside class="present-notes" data-present-target="notes" data-present-ignore hidden>
+  <% if @leaf.notes.present? %>
+    <%= simple_format @leaf.notes %>
+  <% else %>
+    <p>No speaker notes for this slide. Add them while editing.</p>
+  <% end %>
+</aside>
+
+<div class="present-overview" data-present-target="overview" data-present-ignore hidden>
+  <% @leaves.each_with_index do |leaf, index| %>
+    <%= link_to leafable_slug_path(leaf), class: ("is-current" if leaf == @leaf) do %>
+      <span><%= index + 1 %>. <%= leaf.title %></span>
+    <% end %>
+  <% end %>
+</div>
+
+<% content_for :footer do %>
+  <%= render "leaves/navigation", leaf: @leaf %>
+<% end %>

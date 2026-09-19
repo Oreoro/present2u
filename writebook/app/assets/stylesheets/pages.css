@@ -1,0 +1,125 @@
+#main:has(.page--section, .page--picture) {
+  display: grid;
+}
+
+#main:has(.page--picture:not(.picture-form)) {
+  inline-size: 100%;
+  padding: 0;
+
+  figcaption {
+    inline-size: 67ch;
+    margin-inline: auto;
+    max-inline-size: 100dvw;
+    padding-inline: clamp(var(--inline-space), 5%, calc(var(--inline-space) * 3));
+  }
+}
+
+/* Dark section slides are retired — every slide uses the one light theme. */
+
+
+
+.page-toolbar {
+  --padding-block: 0.5em;
+  --padding-inline: 1.1em;
+
+  border-radius: var(--radius-md);
+  display: inline-flex;
+  margin: var(--block-space-half) auto 0;
+  min-width: 0;
+  padding: var(--padding-block) var(--padding-inline);
+  transition: background-color 300ms ease;
+
+  .separator {
+    block-size: 100%;
+    border-color: var(--color-bg);
+    border-width: 3px;
+    margin-block: calc(-1 * var(--padding-block));
+  }
+
+  .btn {
+    --btn-border-color: transparent;
+
+    flex-shrink: 0;
+  }
+}
+
+:is(.page__body, .page--page) {
+  text-align: start;
+}
+
+:is(.page--section, .page--picture) {
+  place-self: center;
+}
+
+  body:has(#leafable-editor.clean) {
+    & .page-toolbar__save {
+      --btn-background: var(--color-positive);
+      --btn-border-color: var(--color-bg);
+      --btn-color: var(--color-ink-reversed);
+      --outline-color: var(--color-positive);
+
+      img {
+        filter: invert(1);
+      }
+    }
+  }
+
+  body:has(#leafable-editor.dirty) {
+    & .page-toolbar__save {
+      --btn-background: var(--color-link);
+      --btn-border-color: var(--color-bg);
+      --btn-color: var(--color-ink-reversed);
+      --outline-color: var(--color-link);
+
+      img {
+        filter: invert(1);
+      }
+    }
+  }
+
+  body:has(#leafable-editor.saving) .page-toolbar__save {
+    position: relative;
+
+    > * {
+      visibility: hidden;
+    }
+
+    &::after {
+      --mask: no-repeat radial-gradient(#000 68%,#0000 71%);
+      --size: 1.25em;
+
+      -webkit-mask: var(--mask), var(--mask), var(--mask);
+      -webkit-mask-size: 28% 45%;
+      animation: submitting 1s infinite linear;
+      aspect-ratio: 8/5;
+      background: currentColor;
+      content: "";
+      inline-size: var(--size);
+      inset: 50%;
+      margin-block: calc((var(--size) / 3) * -1);
+      margin-inline: calc((var(--size) / 2) * -1);
+      position: absolute;
+    }
+  }
+
+body.edit-mode .hide_from_edit_mode {
+  display: none;
+}
+
+body:not(.edit-mode) .hide_from_reading_mode {
+  display: none;
+}
+
+.being-edited-by {
+  animation: fade-out 300ms ease-out 20s;
+  background-color: var(--color-ink);
+  border-radius: var(--radius-round);
+  color: var(--color-ink-reversed);
+  padding: 0.5em 1em;
+}
+
+.page-edit__current {
+  @media (max-width: 70ch) {
+    display: none;
+  }
+}

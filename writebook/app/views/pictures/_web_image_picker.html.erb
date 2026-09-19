@@ -1,0 +1,17 @@
+<div class="web-image-picker" data-controller="image-search"
+     data-image-search-search-url-value="<%= context_dev_search_path %>">
+  <div class="flex flex-wrap align-center gap-half">
+    <input type="url" class="input full-width" placeholder="Paste a page URL (e.g. https://stripe.com) to pull its images"
+           data-image-search-target="query" data-action="keydown.enter->image-search#search:prevent">
+    <select class="input" data-image-search-target="kind" aria-label="Image source">
+      <option value="images">Images on page</option>
+      <option value="screenshot">Screenshot</option>
+    </select>
+    <button type="button" class="btn" data-action="image-search#search">Find images</button>
+  </div>
+
+  <%= form.hidden_field :remote_image_url, data: { image_search_target: "url" } %>
+
+  <p class="web-image-picker__status txt-small" data-image-search-target="status" hidden></p>
+  <div class="web-image-picker__results" data-image-search-target="results"></div>
+</div>

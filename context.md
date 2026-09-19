@@ -1,0 +1,13 @@
+# present2u — technical presentations
+
+Writebook (Rails 8) → technical decks. LaTeX/Beamer: KaTeX math, pdflatex→SVG for ```latex, D2 (TALA+sketch), Rouge. context.dev images. URLs /decks; models Book/Leaf.
+
+Fenced ```d2/```d2-sketch/```latex/```typst → RenderedAsset SVG at /rendered/<sha>.svg (sanitizer-safe). Inline $...$ KaTeX. Typst first-class via TypstDocument (typst CLI → SVG, transparent page, black→currentColor). Typst-first decks: deck.format=typst compiles each slide body to a 16:9 SVG (no Markdown) with a built-in slide theme (TypstDocument.slide: page/typography/heading/code styling, #p2u-title helper, #p2u-fit auto-shrink to one page); in-app Typst leafable (Typst model, /typst_slides) with live-preview editor. Standalone HTML export renders Markdown with markdown-it (+ markdown-it-texmath/KaTeX, highlight.js); D2/LaTeX/Typst fences stay server-rendered. Present: body.presenting 16:9, arrows/space/swipe, ESC, counter, notes(N), overview(O). Sketch: leaves.sketch → theme--sketch.
+
+API (Bearer user.api_token; GET /api): /api/decks + /import + slides; /api/templates. /templates one-click gallery. DeckBuilder + 8 DeckTemplates.
+
+P2U/1 declarative compiler: manifest (YAML/JSON/Markdown front-matter) → P2u::{Parser,Validator,Compiler,Emitter,Planner,Outliner,Exporter,MCP,Toolchain,CLI} in app/models/p2u/, registries Layouts/Blocks; render targets P2u::Render::{Slide,Document}. Diagnostics (severity/code/slide/path). Legacy type/body normalised. Declarative plan/apply: stable slide ids persisted as leaves.p2u_id + leaves.layout; matched by id with positional fallback; create/update/delete/reorder; idempotent. Export: self-contained HTML (inline d2/latex SVG, nav, notes, print CSS), Markdown notes, PDF via headless Chrome. Outline = slide budget. MCP server over stdio (bin/p2u mcp) exposing validate/compile/outline/render/export/plan/apply/schema/doctor. API: POST /api/compile|export, GET /api/schema|toolchain, POST /api/decks/:id/plan|apply. CLI: bin/p2u validate|compile|plan|apply|outline|export|mcp|schema|doctor (--json). Compose: P2u::Composer + P2u::LLM (OpenAI-compatible via P2U_LLM_API_KEY/OPENAI_API_KEY; deterministic heuristic fallback) turns a prompt/notes into a validated manifest; p2u compose / POST /api/compose. Schema config/schemas/p2u-1.schema.json; P2U_SPEC.md; examples/raft.p2u.
+
+Art: GenerativeArt (seeded Bauhaus covers per deck), colour fields + motion, Space Grotesk display font; reduced-motion respected.
+
+Key: models/{deck_builder,deck_template,generative_art,rendered_asset,d2_diagram,latex_equation,typst_document,typst,context_dev}.rb; controllers/api/*; lib/markdown_renderer.rb. Deps: d2, pdflatex, pdftocairo, typst; CONTEXT_DEV_API_KEY.

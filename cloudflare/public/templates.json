@@ -1,0 +1,50 @@
+[
+  {
+    "key": "einstein",
+    "title": "E = mc² — scientific derivation",
+    "description": "Mass–energy equivalence derived from special relativity, with LaTeX, D2 and code.",
+    "slides": 11
+  },
+  {
+    "key": "transformer",
+    "title": "Attention Is All You Need — the Transformer",
+    "description": "Architecture, equations, tensor shapes, PyTorch code, inference and scaling.",
+    "slides": 21
+  },
+  {
+    "key": "raft",
+    "title": "Raft — understandable consensus",
+    "description": "Leader election, log replication and safety in a distributed consensus protocol.",
+    "slides": 6
+  },
+  {
+    "key": "system-design",
+    "title": "System design review",
+    "description": "Context, requirements, architecture diagram, data flow, capacity math and tradeoffs.",
+    "slides": 5
+  },
+  {
+    "key": "ml-model",
+    "title": "ML model card",
+    "description": "Problem, data, architecture, training math, evaluation and deployment for a model.",
+    "slides": 5
+  },
+  {
+    "key": "algorithm",
+    "title": "Algorithm deep dive",
+    "description": "Problem statement, invariant, pseudocode, complexity and a proof sketch.",
+    "slides": 5
+  },
+  {
+    "key": "research-paper",
+    "title": "Research paper walkthrough",
+    "description": "Abstract, motivation, method, results and related work for a paper reading group.",
+    "slides": 5
+  },
+  {
+    "key": "incident-review",
+    "title": "Incident review",
+    "description": "Blameless timeline, root cause, impact and action items for a postmortem.",
+    "slides": 5
+  }
+]

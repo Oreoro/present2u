@@ -1,0 +1,86 @@
+/* Hand-drawn "sketch mode" slide aesthetic, plus the Kalam handwriting font. */
+@font-face {
+  font-family: "Kalam";
+  src: url("fonts/kalam-regular.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Kalam";
+  src: url("fonts/kalam-bold.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
+.theme--sketch {
+  --sketch-paper: oklch(98% 0.012 95);
+  --sketch-ink: oklch(32% 0.04 265);
+  --color-bg: var(--sketch-paper);
+  --color-ink: var(--sketch-ink);
+
+  background-color: var(--sketch-paper);
+  color: var(--sketch-ink);
+  font-family: "Kalam", "Comic Sans MS", "Segoe Print", cursive;
+}
+
+.theme--sketch :is(h1, h2, h3, strong, b) {
+  font-weight: 700;
+}
+
+.theme--sketch .page--section h1 {
+  border: 3px solid currentColor;
+  border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+  padding: 0.35em 0.8em;
+}
+
+.theme--sketch .diagram img {
+  border: 3px solid currentColor;
+  border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+  padding: 0.75rem;
+}
+
+.theme--sketch blockquote {
+  border-inline-start: 4px solid currentColor;
+  font-style: normal;
+}
+
+.theme--sketch a {
+  text-decoration-style: wavy;
+}
+
+.theme--sketch .slide-stage__kicker {
+  color: var(--sketch-ink);
+  opacity: 0.65;
+  text-transform: none;
+}
+
+.theme--sketch .slide-stage__content :is(h2, h3)::after {
+  background-color: currentColor;
+  block-size: 0.1em;
+  border-radius: 50%;
+  content: "";
+  display: block;
+  inline-size: 3.5em;
+  margin-block-start: 0.2em;
+  opacity: 0.45;
+}
+
+.theme--sketch ul {
+  list-style: none;
+  padding-inline-start: 0;
+}
+
+.theme--sketch li::before {
+  content: "✱";
+  margin-inline-end: 0.5em;
+  opacity: 0.7;
+}
+
+.theme--sketch :is(pre, .highlight) {
+  background-color: color-mix(in oklab, var(--sketch-ink) 6%, transparent);
+  border: 2px solid currentColor;
+  border-radius: 18px 6px 16px 8px / 8px 16px 6px 18px;
+}

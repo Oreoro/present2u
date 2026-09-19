@@ -1,0 +1,191 @@
+/* Text inputs — Notion: white field, hairline border, blue focus ring */
+.input {
+  --hover-size: 0;
+
+  accent-color: var(--input-accent-color, var(--color-link));
+  background-color: var(--input-background, var(--color-bg));
+  border-radius: var(--input-border-radius, var(--radius-sm));
+  border: var(--input-border-size, 1px) solid var(--input-border-color, var(--color-subtle));
+  color: var(--input-color, var(--color-ink));
+  font-size: max(16px, 1em);
+  inline-size: 100%;
+  line-height: 1.4;
+  max-inline-size: 100%;
+  padding: var(--input-padding, 0.4em 0.65em);
+  resize: none;
+  transition: border-color 20ms ease, box-shadow 20ms ease;
+
+  &::placeholder {
+    color: var(--color-gray-dark, var(--color-subtle-dark));
+    opacity: 0.7;
+  }
+
+  &:autofill,
+  &:-webkit-autofill,
+  &:-webkit-autofill:hover,
+  &:-webkit-autofill:focus {
+    -webkit-text-fill-color: var(--color-ink);
+    -webkit-box-shadow: 0 0 0px 1000px var(--color-selected) inset;
+  }
+
+  &:where(:not(:active)):focus {
+    --input-border-color: var(--color-link);
+    --outline-size: 0;
+    --outline-color: transparent;
+
+    box-shadow: 0 0 0 2px oklch(var(--lch-blue) / 0.25);
+    outline: none;
+  }
+}
+
+.input--file {
+  border: 0;
+  cursor: pointer;
+  display: grid;
+  inline-size: auto;
+  place-items: center;
+
+  > * {
+    grid-area: 1 / 1;
+  }
+
+  img {
+    border-radius: var(--radius-sm);
+  }
+
+  input[type="file"] {
+    --input-border-color: transparent;
+    --input-border-radius: var(--radius-sm);
+
+    block-size: 100%;
+    cursor: pointer;
+    font-size: 0;
+    inline-size: 100%;
+    overflow: clip;
+
+    &::file-selector-button {
+      appearance: none;
+      cursor: pointer;
+      opacity: 0;
+    }
+
+    &:focus,
+    &:focus-visible {
+      --input-border-color: var(--color-link);
+      --input-border-radius: var(--radius-sm);
+      --input-border-size: 1px;
+    }
+  }
+}
+
+.input--textara {
+  --input-padding: 0.55em;
+
+  line-height: 1.5;
+  min-block-size: calc(4lh + (2 * var(--input-padding)));
+  min-inline-size: 100%;
+  padding-block: var(--input-padding);
+  padding-inline: calc(var(--input-padding) + calc((1lh - 1ex) / 2));
+
+  @supports (field-sizing: content) {
+    field-sizing: content;
+    max-block-size: calc(10lh + (2 * var(--input-padding)));
+    min-block-size: calc(1lh + (2 * var(--input-padding)));
+  }
+}
+
+/* Switches */
+.switch {
+  block-size: 1.75em;
+  border-radius: var(--radius-round);
+  display: inline-flex;
+  inline-size: 3em;
+  position: relative;
+
+  &:has(:focus-visible) {
+    .switch__btn {
+      box-shadow:
+        0 0 0 var(--outline-size) var(--color-bg),
+        0 0 0 calc(var(--outline-size) * 2) var(--color-link);
+    }
+  }
+}
+
+.switch__input {
+  block-size: 0;
+  inline-size: 0;
+  opacity: 0.1;
+}
+
+.switch__btn {
+  background-color: var(--color-subtle-dark);
+  border-radius: var(--radius-round);
+  cursor: pointer;
+  inset: 0;
+  position: absolute;
+  transition: 150ms ease;
+
+  &::before {
+    background-color: var(--color-always-white);
+    block-size: 1.35em;
+    border-radius: 50%;
+    content: "";
+    inline-size: 1.35em;
+    inset-block-end: 0.2em;
+    inset-inline-start: 0.2em;
+    position: absolute;
+    transition: 150ms ease;
+  }
+
+  .switch__input:disabled + & {
+    background-color: var(--color-subtle-dark) !important;
+    cursor: not-allowed;
+  }
+
+  .switch__input:checked + & {
+    background-color: var(--color-link);
+
+    &::before {
+      transform: translateX(1.2em);
+    }
+  }
+}
+
+/* Containers that act like (and contain) inputs */
+.input--actor {
+  transition: border-color 20ms ease, box-shadow 20ms ease;
+
+  &:focus-within {
+    --input-border-color: var(--color-link);
+    --outline-size: 0;
+
+    box-shadow: 0 0 0 2px oklch(var(--lch-blue) / 0.25);
+    outline: none;
+  }
+
+  .input {
+    --input-padding: 0;
+    --input-border-radius: 0;
+    --input-background: transparent;
+    --input-border-size: 0;
+    --hover-size: 0;
+    --outline-size: 0;
+    --outline-color: transparent;
+
+    inline-size: 100%;
+    outline: 0;
+
+    &:focus {
+      box-shadow: none;
+    }
+  }
+
+  &:has(.input:is(
+    :autofill,
+    :-webkit-autofill,
+    :-webkit-autofill:hover,
+    :-webkit-autofill:focus)) {
+      -webkit-text-fill-color: var(--color-text);
+      -webkit-box-shadow: 0 0 0px 1000px var(--color-selected) inset;
+  }
+}

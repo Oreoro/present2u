@@ -1,0 +1,211 @@
+p2u: 1
+deck:
+  title: Python Basics
+  subtitle: Explain like I'm 5 — your first steps in code
+  theme: writebook
+  meta:
+    audience: Complete beginners
+slides:
+  - layout: title
+    title: Python Basics
+    subtitle: Explain like I'm 5 — your first steps in code
+    notes: |
+      Welcome! No experience needed. We'll learn what code is and a few simple
+      Python ideas by comparing them to everyday things.
+
+  - layout: content
+    title: What Is Python?
+    body: |
+      Python is how we give a computer **step-by-step instructions** — like a
+      recipe tells a cook what to do.
+
+      - A computer is very fast but it does **exactly** what you say
+      - Python is written in words that look almost like English
+      - You write the steps once, and the computer can repeat them forever
+    notes: |
+      Emphasise that computers are not smart; they follow instructions literally.
+      Python is popular because its instructions are easy to read.
+
+  - layout: diagram
+    title: A Recipe for the Computer
+    blocks:
+      - kind: diagram
+        lang: d2-sketch
+        source: |
+          direction: right
+          you: You
+          python: Python
+          computer: Computer
+          you -> python: write the steps
+          python -> computer: run the steps
+          computer -> you: show the answer
+    notes: You write the recipe in Python; Python passes it to the computer.
+
+  - layout: content
+    title: Variables Are Labelled Boxes
+    body: |
+      A **variable** is a box with a name on it. You put something inside, and
+      later you can look inside by saying the name.
+
+      - `name = "Ada"` puts the word **Ada** in a box called `name`
+      - `age = 5` puts the number **5** in a box called `age`
+      - The `=` sign means "put this in the box", not "is equal to"
+    notes: |
+      The box analogy is key. `=` is assignment. We'll contrast with `==` later
+      when we talk about asking questions.
+
+  - layout: code-split
+    title: Saying Hello
+    code:
+      kind: code
+      lang: python
+      source: |
+        name = "Ada"
+        print("Hello,", name)
+
+        age = 5
+        print("Next year you will be", age + 1)
+    prose: |
+      `print(...)` tells Python to **show something on the screen**.
+
+      Notice `age + 1`: Python can do the maths for you and show `6`.
+    notes: |
+      Run this live if possible. Point out that text needs quotes but numbers
+      do not.
+
+  - layout: content
+    title: "Types: Numbers, Words, and Yes/No"
+    body: |
+      Everything in a box has a **type** — what kind of thing it is.
+
+      - `int` — whole numbers like `5`, `42`
+      - `float` — numbers with a dot like `3.14`
+      - `str` — text, called a **string**, like `"hello"`
+      - `bool` — only `True` or `False`, like a light switch
+    notes: |
+      Keep it light. The point is that Python cares about the kind of value so
+      it knows what it is allowed to do with it.
+
+  - layout: code-split
+    title: Lists Are Rows of Boxes
+    code:
+      kind: code
+      lang: python
+      source: |
+        fruits = ["apple", "banana", "cherry"]
+
+        print(fruits[0])
+        print(len(fruits))
+
+        fruits.append("date")
+        print(fruits)
+    prose: |
+      A **list** keeps many things together in order — like a shopping list.
+
+      - `fruits[0]` means "the first item" (we start counting at `0`)
+      - `len(fruits)` counts how many items there are
+      - `fruits.append("date")` adds one more to the end
+    notes: |
+      Zero-based counting is surprising for beginners — call it out.
+
+  - layout: code-split
+    title: Loops Repeat Things
+    code:
+      kind: code
+      lang: python
+      source: |
+        fruits = ["apple", "banana", "cherry"]
+
+        for fruit in fruits:
+            print("I like", fruit)
+    prose: |
+      A **loop** says "do this for each thing in the list".
+
+      Instead of writing three prints, we write one and let Python repeat it.
+      The indented line is the part that repeats.
+    notes: |
+      Indentation is how Python knows what is inside the loop.
+
+  - layout: diagram
+    title: How a Loop Thinks
+    blocks:
+      - kind: diagram
+        lang: d2-sketch
+        source: |
+          direction: right
+          start: Start
+          more: "More items?"
+          step: "Do the step"
+          done: Done
+          start -> more
+          more -> step: yes
+          step -> more
+          more -> done: no
+    notes: The loop keeps coming back to the question until the list is empty.
+
+  - layout: content
+    title: Making Choices with if
+    body: |
+      An **if** statement asks a question and picks what to do next.
+
+      - `if raining: take umbrella()` — only when it is raining
+      - `else: wear sunglasses()` — every other time
+
+      Asking a question uses two equals signs: `if age == 5:` means
+      "is the box called age equal to 5?"
+    notes: |
+      Contrast `=` (put in box) with `==` (ask a question). This is a classic
+      beginner trip-up.
+
+  - layout: code-split
+    title: Functions Are Little Machines
+    code:
+      kind: code
+      lang: python
+      source: |
+        def greet(person):
+            return "Hello, " + person
+
+        message = greet("Ada")
+        print(message)
+    prose: |
+      A **function** is a machine: you give it something, it does a job, and it
+      hands something back.
+
+      - `def` means "I am building a machine"
+      - `person` is what you feed in
+      - `return` is what the machine hands back
+    notes: |
+      Functions let us write a step once and use it many times.
+
+  - layout: diagram
+    title: Inside a Function
+    blocks:
+      - kind: diagram
+        lang: d2-sketch
+        source: |
+          direction: right
+          input: "\"Ada\""
+          machine: "greet"
+          output: "\"Hello, Ada\""
+          input -> machine -> output
+    notes: Input goes in, the function runs, output comes out.
+
+  - layout: quote
+    title: Why Python?
+    blocks:
+      - kind: quote
+        text: Code is read far more often than it is written.
+        attribution: The Zen of Python
+    notes: |
+      Python is designed to be easy to read, which makes it a great first
+      language.
+
+  - layout: recap
+    title: Recap
+    body: |
+      - Python gives a computer step-by-step instructions
+      - Variables are labelled boxes that hold values
+      - Types describe what kind of value is inside
+      - Lists keep many things together, and loops repeat work
+      - `if` makes choices, and functions are reusable machines

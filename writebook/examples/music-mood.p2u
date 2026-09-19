@@ -1,0 +1,140 @@
+p2u: 1
+deck:
+  title: How Music Affects Mood
+  subtitle: Why a song can change how you feel in seconds
+  theme: writebook
+  meta:
+    topic: Music and emotion
+slides:
+  - layout: title
+    title: How Music Affects Mood
+    subtitle: Why a song can change how you feel in seconds
+
+  - layout: content
+    title: Why Music Moves Us
+    body: |
+      Music is one of the few things that can change how you feel **before you
+      even decide to feel it**. A few notes can lift you up or bring you down.
+
+      - Your brain constantly predicts what comes next; music plays with that
+      - When the prediction is *just* right, it rewards you with **dopamine**
+      - That is why a chorus can give you goosebumps
+    notes: |
+      Dopamine is the same reward chemical involved in food and friendship.
+      Music gives it to you for free.
+
+  - layout: diagram
+    title: From Sound to Feeling
+    blocks:
+      - kind: diagram
+        lang: d2-sketch
+        source: |
+          direction: right
+          sound: Sound
+          brain: "Brain predicts"
+          reward: "Dopamine"
+          mood: Mood
+          sound -> brain: hear it
+          brain -> reward: "just right?"
+          reward -> mood: "feel it"
+    notes: The loop from hearing to feeling, simplified.
+
+  - layout: content
+    title: The Building Blocks
+    body: |
+      Every song is built from a handful of ingredients, and each one nudges
+      your mood in its own direction.
+
+      **Tempo** — the speed of the beat. Fast tempos tend to energise, slow
+      tempos tend to calm or sadden. Around 120 BPM feels like a brisk walk;
+      around 60 BPM feels like a resting heart.
+
+      **Key and mode** — major keys usually sound bright and happy, minor keys
+      usually sound wistful or serious. The same melody can flip meaning when
+      you move it from major to minor.
+
+      **Timbre** — the "colour" of the sound. A warm cello and a bright synth
+      can play the same note and make you feel completely different things.
+      Rough, distorted sounds read as intense; soft, breathy sounds read as
+      intimate.
+
+      **Dynamics** — how loud or quiet it gets, and how quickly it changes. A
+      sudden swell feels like a rush; a slow fade feels like letting go.
+
+      **Lyrics** — words give the feeling a story. A sad lyric over a happy
+      tune can feel bittersweet, and a hopeful lyric over a minor chord can
+      feel like courage.
+
+      **Familiarity** — the more you know a song, the more it can move you.
+      Memory and music are tightly linked, which is why a song from years ago
+      can drop you straight back into a moment.
+
+      None of these work alone. Mood is the sum of tempo, key, timbre,
+      dynamics, lyrics and memory, all at once.
+    notes: |
+      This slide is intentionally long — it should scroll rather than be
+      clipped or shrunk.
+
+  - layout: two-column
+    title: Tempo Changes Energy
+    left: |
+      **Faster (100–160 BPM)**
+
+      - Workouts and dancing
+      - Feels like momentum
+      - Raises arousal and alertness
+    right: |
+      **Slower (50–80 BPM)**
+
+      - Focus, sleep, reflection
+      - Feels like calm or melancholy
+      - Lowers heart rate and tension
+    notes: Arousal here means alertness, not romance.
+
+  - layout: compare
+    title: Major vs Minor
+    left: |
+      **Major**
+
+      - Bright, open, hopeful
+      - Happy endings and celebrations
+      - "Everything is fine"
+    right: |
+      **Minor**
+
+      - Darker, inward, serious
+      - Longing and reflection
+      - "Something is unresolved"
+    notes: Neither is better; they are two colours on the same palette.
+
+  - layout: content
+    title: Memory, Nostalgia and Comfort
+    body: |
+      Music is a time machine. Because it is stored with the memories around
+      it, hearing a song can bring back a whole feeling, not just a sound.
+
+      - Familiar songs feel safer and can lower stress
+      - Shared music builds closeness — dancing and singing together syncs us
+      - Nostalgia is bittersweet: warm and sad at the same time
+
+  - layout: content
+    title: A Practical Guide
+    body: |
+      You can use music on purpose, like a tool.
+
+      - **To focus:** steady, low-lyric, mid-tempo music
+      - **To lift your mood:** bright major keys and a faster beat
+      - **To calm down:** slow tempos, soft timbres, gentle dynamics
+      - **To feel understood:** songs whose lyrics match your story
+
+      Start with the feeling you want, then pick the ingredients that create it.
+    notes: Ask the audience what song changes their mood fastest.
+
+  - layout: recap
+    title: Recap
+    body: |
+      - Music changes mood through prediction and dopamine
+      - Tempo, key, timbre, dynamics, lyrics and memory all matter
+      - Fast and major usually energise; slow and minor usually soothe
+      - Familiar music links feeling to memory
+      - You can choose music to steer how you feel

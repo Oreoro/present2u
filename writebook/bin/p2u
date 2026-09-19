@@ -1,0 +1,44 @@
+#!/bin/sh
+# p2u — command line front end for the P2U/1 presentation compiler.
+#
+# Finds a modern Ruby (>= 3.0) so it works from a bare environment, then runs
+# bin/p2u.rb. Override the interpreter with P2U_RUBY.
+#
+#   bin/p2u validate deck.p2u
+#   bin/p2u doctor
+#   bin/p2u mcp
+
+set -e
+
+APP_ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+
+usable() {
+  [ -n "$1" ] && [ -x "$1" ] && "$1" -e 'exit(RUBY_VERSION >= "3.0" ? 0 : 1)' >/dev/null 2>&1
+}
+
+find_ruby() {
+  if usable "$P2U_RUBY"; then printf '%s\n' "$P2U_RUBY"; return; fi
+
+  for candidate in \
+    /opt/homebrew/opt/ruby/bin/ruby \
+    /usr/local/opt/ruby/bin/ruby \
+    "$HOME/.rbenv/shims/ruby"; do
+    if usable "$candidate"; then printf '%s\n' "$candidate"; return; fi
+  done
+
+  for candidate in /opt/homebrew/Cellar/ruby/*/bin/ruby \
+                   /usr/local/Cellar/ruby/*/bin/ruby \
+                   "$HOME"/.rbenv/versions/*/bin/ruby; do
+    if usable "$candidate"; then printf '%s\n' "$candidate"; return; fi
+  done
+
+  command -v ruby 2>/dev/null || true
+}
+
+RUBY=$(find_ruby)
+if ! usable "$RUBY"; then
+  echo "p2u: Ruby >= 3.0 is required. Install Ruby 3.4, or set P2U_RUBY to the interpreter." >&2
+  exit 1
+fi
+
+exec "$RUBY" "$APP_ROOT/bin/p2u.rb" "$@"

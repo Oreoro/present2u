@@ -1,0 +1,10 @@
+<details class="speaker-notes fill-shade pad margin-block" <%= "open" if leaf.notes.present? %>>
+  <summary class="txt-medium">Speaker notes</summary>
+
+  <%= form_with model: [ book, leaf ], url: leafable_path(leaf), format: :html,
+      class: "flex flex-column gap-half margin-block-start" do |form| %>
+    <%= form.text_area :notes, class: "input full-width", rows: 4,
+        placeholder: "Notes only you see while presenting (press N in present mode)" %>
+    <%= form.submit "Save notes", class: "btn txt-small flex-item-justify-start" %>
+  <% end %>
+</details>

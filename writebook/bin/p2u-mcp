@@ -1,0 +1,12 @@
+#!/bin/sh
+# Launch the present2u MCP server with a Ruby the app can run.
+#
+# MCP clients often launch commands with a bare environment, where `ruby` may
+# resolve to an old system Ruby. `bin/p2u` already finds a modern Ruby, so this
+# wrapper just delegates to it.
+
+set -e
+
+APP_ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+
+exec "$APP_ROOT/bin/p2u" mcp

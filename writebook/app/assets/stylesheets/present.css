@@ -1,0 +1,379 @@
+/* Presentation mode: a 16:9 slide canvas, fullscreen presenting, HUD,
+   speaker notes and the slide overview grid. */
+
+/* Slide canvas ------------------------------------------------------- */
+.slide-stage {
+  --slide-pad: clamp(1.25rem, 5.5cqi, 4.5rem);
+
+  background-color: var(--color-bg);
+  border: var(--border-hairline);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  container-type: inline-size;
+  display: flex;
+  flex-direction: column;
+  inline-size: 100%;
+  justify-content: flex-start;
+  margin-inline: auto;
+  padding: var(--slide-pad);
+  position: relative;
+  text-align: start;
+}
+
+/* The 16:9 slide canvas only exists while presenting. In reading mode the
+   stage grows with its content so long slides are never clipped or jumbled. */
+body.presenting .slide-stage {
+  aspect-ratio: 16 / 9;
+  border-radius: 0;
+  box-shadow: none;
+  container-type: size;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.slide-stage__kicker {
+  color: var(--color-subtle-dark);
+  flex-shrink: 0;
+  font-size: clamp(0.75rem, 1.5cqi, 1rem);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  margin-block-end: clamp(0.5rem, 2cqi, 1.25rem);
+  text-transform: uppercase;
+}
+
+.slide-stage__content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: center;
+  min-block-size: 0;
+}
+
+.slide-stage__content > :is(.page--page, .page--section, .page--picture) {
+  margin: 0;
+}
+
+.slide-stage .page--section {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.slide-stage .page--section__inner {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.5rem, 2cqi, 1.5rem);
+}
+
+.slide-stage .page--section__title {
+  font-size: clamp(1.9rem, 7.5cqi, 5.5rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.05;
+  margin: 0;
+}
+
+.slide-stage .page--section__subtitle {
+  font-size: clamp(1rem, 3cqi, 2.25rem);
+  font-weight: 500;
+  line-height: 1.2;
+  margin: 0;
+  opacity: 0.7;
+}
+
+.slide-stage .page--page {
+  font-size: clamp(1rem, 2.4cqi, 2rem);
+  line-height: 1.4;
+  text-align: start;
+}
+
+body.presenting .slide-stage .page--page {
+  overflow: auto;
+}
+
+.slide-stage .page--page > :first-child {
+  margin-block-start: 0;
+}
+
+.slide-stage .page--page > :last-child {
+  margin-block-end: 0;
+}
+
+.slide-stage .page--page h1 { font-size: 1.7em; }
+.slide-stage .page--page h2 { font-size: 1.4em; }
+.slide-stage .page--page h3 { font-size: 1.2em; }
+.slide-stage .page--page img { max-inline-size: 100%; }
+
+.slide-stage .page--picture {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  justify-content: center;
+}
+
+.slide-stage .page--picture img {
+  border-radius: var(--radius-md);
+  max-block-size: 100%;
+  max-inline-size: 100%;
+  object-fit: contain;
+}
+
+.slide-stage .page--picture figcaption {
+  font-size: clamp(0.85rem, 1.8cqi, 1.3rem);
+  inline-size: auto;
+  max-inline-size: 100%;
+  text-align: center;
+}
+
+.slide-stage__number {
+  color: var(--color-subtle-dark);
+  font-size: clamp(0.7rem, 1.4cqi, 1rem);
+  inset: auto var(--slide-pad) calc(var(--slide-pad) / 1.6) auto;
+  position: absolute;
+}
+
+/* Single-slide view --------------------------------------------------- */
+#main.slide {
+  inline-size: min(1180px, 94vw);
+  max-inline-size: none;
+  padding-block-end: var(--block-space);
+}
+
+#main.slide:has(.page--picture:not(.picture-form)) {
+  inline-size: min(1180px, 94vw);
+  padding-inline: 0;
+}
+
+/* Presenting ---------------------------------------------------------- */
+body.presenting {
+  background-color: var(--color-subtle-light);
+  overflow: hidden;
+
+  #header,
+  #toolbar,
+  #sidebar,
+  #footer {
+    display: none !important;
+  }
+
+  #main {
+    block-size: 100dvh;
+    display: grid;
+    inline-size: 100vw;
+    margin: 0;
+    max-inline-size: none;
+    padding: 0;
+    place-items: center;
+  }
+
+  .slide-stage {
+    inline-size: min(100vw, 177.7778dvh);
+    max-block-size: 100dvh;
+  }
+
+  .slide-stage__number {
+    display: none;
+  }
+}
+
+/* HUD ----------------------------------------------------------------- */
+.present-hud,
+.present-progress,
+.present-notes,
+.present-overview {
+  display: none;
+}
+
+body.presenting {
+  .present-progress {
+    background-color: rgb(255 255 255 / 0.18);
+    block-size: 4px;
+    display: block;
+    inset: 0 0 auto 0;
+    position: fixed;
+    z-index: 50;
+
+    &::after {
+      background-color: var(--color-link);
+      block-size: 100%;
+      content: "";
+      display: block;
+      inline-size: var(--progress, 0%);
+      transition: inline-size 200ms ease;
+    }
+  }
+
+  .present-hud {
+    align-items: center;
+    bottom: 1.25rem;
+    color: var(--color-ink);
+    display: flex;
+    gap: 0.5rem;
+    inset-inline: 0;
+    justify-content: center;
+    position: fixed;
+    z-index: 50;
+
+    .btn {
+      --btn-color: var(--color-ink);
+      --btn-border-color: var(--color-subtle);
+      --btn-background: var(--color-bg);
+      --btn-shadow: var(--shadow-md);
+    }
+
+    .present-hud__counter {
+      background-color: var(--color-bg);
+      border: var(--border-hairline);
+      border-radius: var(--radius-sm);
+      box-shadow: var(--shadow-sm);
+      font-variant-numeric: tabular-nums;
+      padding: 0.35em 0.9em;
+    }
+  }
+
+  .present-notes:not([hidden]) {
+    background-color: var(--color-bg);
+    border: var(--border-hairline);
+    border-radius: var(--radius-lg);
+    bottom: 4.75rem;
+    box-shadow: var(--shadow-xl);
+    color: var(--color-ink);
+    display: block;
+    font-size: clamp(0.95rem, 1.6cqi, 1.25rem);
+    inline-size: min(60ch, 90vw);
+    left: 50%;
+    line-height: 1.5;
+    max-block-size: 45vh;
+    overflow: auto;
+    padding: 1.25rem 1.5rem;
+    position: fixed;
+    transform: translateX(-50%);
+    white-space: pre-wrap;
+    z-index: 60;
+  }
+
+  .present-overview:not([hidden]) {
+    background-color: var(--color-subtle-light);
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    inset: 0;
+    overflow: auto;
+    padding: 2rem;
+    position: fixed;
+    z-index: 55;
+
+    a {
+      aspect-ratio: 16 / 9;
+      background-color: var(--color-bg);
+      border: var(--border-hairline);
+      border-radius: var(--radius-md);
+      color: var(--color-ink);
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      overflow: hidden;
+      padding: 0.75rem;
+      text-decoration: none;
+    }
+
+    a.is-current {
+      outline: 3px solid var(--color-link);
+    }
+
+    .present-overview__empty {
+      color: var(--color-subtle-dark);
+      grid-column: 1 / -1;
+    }
+  }
+}
+
+/* =====================================================================
+   Slide art & motion — colour fields on section dividers, an animated
+   light field behind the presentation, and an entrance transition.
+   ===================================================================== */
+.slide-stage {
+  animation: slide-rise 460ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.slide-stage .page--section {
+  position: relative;
+}
+
+.slide-stage .page--section__inner {
+  position: relative;
+  z-index: 1;
+}
+
+.slide-stage .page--section::before {
+  animation: art-drift 24s ease-in-out infinite alternate;
+  background:
+    radial-gradient(42% 62% at 18% 22%, oklch(var(--lch-blue) / 0.42), transparent 66%),
+    radial-gradient(46% 62% at 84% 78%, oklch(var(--lch-gray-dark) / 0.28), transparent 68%),
+    radial-gradient(38% 55% at 62% 44%, oklch(var(--lch-blue) / 0.22), transparent 70%);
+  border-radius: var(--radius-xl);
+  content: "";
+  filter: blur(42px);
+  inset: -12%;
+  opacity: 0.55;
+  position: absolute;
+  z-index: 0;
+}
+
+body.presenting #main {
+  isolation: isolate;
+  position: relative;
+}
+
+body.presenting #main::before {
+  background: none;
+  content: none;
+}
+
+body.presenting .present-progress::after {
+  background-color: var(--color-link);
+  background-image: none;
+}
+
+body.presenting .present-hud .btn {
+  transition: box-shadow 150ms ease, transform 150ms ease;
+}
+
+@media (hover: hover) {
+  body.presenting .present-hud .btn:hover {
+    box-shadow: 0 0.5em 1.2em rgb(0 0 0 / 0.4);
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes slide-rise {
+  from { opacity: 0; transform: translateY(14px) scale(0.988); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slide-stage,
+  .slide-stage .page--section::before,
+  body.presenting #main::before {
+    animation: none !important;
+  }
+}
+/* Notion primary "Present" affordance */
+.present-button {
+  --btn-background: var(--color-link);
+  --btn-background-hover: oklch(var(--lch-blue) / 0.88);
+  --btn-background-active: oklch(var(--lch-blue) / 0.78);
+  --btn-border-color: transparent;
+  --btn-border-size: 0;
+  --btn-color: var(--color-always-white);
+  --btn-shadow: var(--shadow-sm);
+
+  font-weight: 600;
+}
+
+.present-button img {
+  filter: invert(1);
+}

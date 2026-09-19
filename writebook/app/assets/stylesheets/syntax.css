@@ -1,0 +1,106 @@
+.highlight {
+  /* Named color values — Notion-flavored syntax palette */
+  --keyword: oklch(60.15% 0.172 25.8);
+  --entity: oklch(58.14% 0.12 309.5);
+  --constant: oklch(56.56% 0.099 237.4);
+  --string: oklch(55.79% 0.085 158.4);
+  --variable: oklch(65.94% 0.159 55.7);
+  --comment: oklch(56.92% 0.005 91.5);
+  --entity-tag: oklch(55.79% 0.085 158.4);
+  --markup-heading: oklch(58.14% 0.12 309.5);
+  --markup-list: oklch(69.7% 0.13 76);
+  --markup-inserted: oklch(55.79% 0.085 158.4);
+  --markup-deleted: oklch(60.15% 0.172 25.8);
+
+  /* Redefine named color values for dark mode */
+  :root[data-theme="dark"] & {
+    --keyword: oklch(67.09% 0.145 17);
+    --entity: oklch(69.47% 0.108 308.6);
+    --constant: oklch(72.21% 0.087 229);
+    --string: oklch(74.81% 0.096 150.9);
+    --variable: oklch(77.13% 0.112 66.5);
+    --comment: oklch(68.95% 0 89.9);
+    --entity-tag: oklch(74.81% 0.096 150.9);
+    --markup-heading: oklch(69.47% 0.108 308.6);
+    --markup-list: oklch(78.93% 0.115 87.9);
+    --markup-inserted: oklch(74.81% 0.096 150.9);
+    --markup-deleted: oklch(67.09% 0.145 17);
+  }
+
+  color: var(--color-ink);
+
+  .w {
+    color: var(--color-ink);
+  }
+
+  .k, .kd, .kn, .kp, .kr, .kt, .kv {
+    color: var(--keyword);
+  }
+
+  .gr {
+    color: var(--color-subtle-light);
+  }
+
+  .gd {
+    color: var(--markup-deleted);
+    background-color: oklch(var(--lch-red) / 0.15);
+  }
+
+  .nb, .nc, .no, .nn {
+    color: var(--variable);
+  }
+
+  .sr, .na, .nt {
+    color: var(--entity-tag);
+  }
+
+  .gi {
+    color: var(--markup-inserted);
+    background-color: oklch(var(--lch-green) / 0.15);
+  }
+
+  .kc, .l, .ld, .m, .mb, .mf, .mh, .mi, .il, .mo, .mx, .sb, .bp, .ne, .nl, .py, .nv, .vc, .vg, .vi, .vm, .o, .ow {
+    color: var(--constant);
+  }
+
+  .gh {
+    color: var(--constant);
+    font-weight: bold;
+  }
+
+  .gu {
+    color: var(--constant);
+    font-weight: bold;
+  }
+
+  .s, .sa, .sc, .dl, .sd, .s2, .se, .sh, .sx, .s1, .ss {
+    color: var(--string);
+  }
+
+  .nd, .nf, .fm {
+    color: var(--entity);
+  }
+
+  .err {
+    color: var(--color-ink-reversed);
+    background-color: var(--markup-deleted);
+  }
+
+  .c, .ch, .cd, .cm, .cp, .cpf, .c1, .cs, .gl, .gt {
+    color: var(--comment);
+  }
+
+  .ni, .si {
+    color: var(--constant);
+  }
+
+  .ge {
+    color: var(--constant);
+    font-style: italic;
+  }
+
+  .gs {
+    color: var(--constant);
+    font-weight: bold;
+  }
+}

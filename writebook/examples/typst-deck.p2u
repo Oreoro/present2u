@@ -1,0 +1,54 @@
+p2u: 1
+deck:
+  title: Raft in Typst
+  subtitle: A deck authored entirely in Typst
+  format: typst
+  theme: writebook
+  meta:
+    engine: typst
+slides:
+  - layout: content
+    body: |
+      #p2u-title("Raft Consensus", subtitle: "Leader election, log replication and safety")
+
+  - layout: content
+    body: |
+      = What Is Consensus?
+
+      A *replicated state machine* keeps $N$ servers in lockstep so the cluster
+      behaves like one reliable machine.
+
+      - All replicas apply the same commands in the same order
+      - `f` failures need $2f + 1$ servers
+      - Raft splits the problem into election, replication and safety
+
+  - layout: content
+    body: |
+      = Quorums
+
+      Any two quorums intersect, so a candidate and a committed entry cannot
+      both win.
+
+      $ q = floor(N/2) + 1 $
+
+      With $N = 5$, three votes elect a leader.
+
+  - layout: content
+    body: |
+      = AppendEntries
+
+      ```python
+      def append_entries(term, leader, prev_index, prev_term):
+          return {"term": term, "success": True}
+      ```
+
+      `prevLogIndex` and `prevLogTerm` form the consistency check.
+
+  - layout: content
+    body: |
+      = Recap
+
+      - Consensus = replicated log + deterministic state machine
+      - Leader election uses randomized timeouts
+      - Log replication uses the consistency check
+      - Safety follows from election restriction and log matching

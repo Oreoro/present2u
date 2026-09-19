@@ -1,0 +1,147 @@
+# Present2u
+
+> Present2u turns a deck into source code. Write a P2U/1 manifest — maths,
+> diagrams, code and layouts — and compile it to a live presenter, a
+> self-contained HTML file, a PDF, or speaker notes. Agents can drive the whole
+> thing over the CLI, a JSON API, or an MCP server.
+
+Present2u is a Rails app (built on Writebook) with a declarative presentation
+compiler, **P2U/1**, on top. Manifests compile to slides; diagrams (D2), equations
+(LaTeX) and Typst documents render server-side to SVG; code is highlighted with
+Rouge; inline maths renders in the browser with KaTeX.
+
+## Quick start
+
+```console
+$ bin/setup                      # install deps, prepare db
+$ bin/rails server -p 3010       # app at http://localhost:3010
+
+$ bin/p2u validate talk.p2u
+$ bin/p2u compile  talk.p2u --render --json
+$ bin/p2u export   talk.p2u --to html   # single-file deck (diagrams inlined)
+$ bin/p2u export   talk.p2u --to notes  # speaker notes
+$ bin/p2u mcp                           # MCP server on stdio
+```
+
+## The P2U/1 manifest
+
+A manifest is YAML, JSON, or Markdown with front-matter. Minimal shape:
+
+```yaml
+p2u: 1
+deck:
+  title: Attention Is All You Need
+  subtitle: The Transformer, end to end
+  author: Present2u
+  theme: white        # writebook | white | black | blue | green | magenta | orange | violet
+  scroll: false       # true = a flowing page instead of 16:9 frames
+slides:
+  - layout: section
+    title: Attention
+    body: The Transformer, end to end
+  - layout: content
+    title: Why divide by sqrt(d_k)?
+    body: |
+      Scaling keeps the softmax in a useful range: $ \sqrt{d_k} $.
+  - layout: equation
+    blocks:
+      - kind: equation
+        source: \mathrm{softmax}\!\left(\frac{QK^\top}{\sqrt{d_k}}\right)V
+```
+
+### Layouts
+
+`title`, `section`, `content`, `two-column`, `compare`, `code-split`,
+`full-code`, `diagram`, `equation`, `table`, `metric-row`, `timeline`, `quote`,
+`image`, `image-grid`, `references`, `recap`, `qa`, `end`, `divider`
+(legacy aliases: `page`, `picture`, `typst`).
+
+### Blocks (used by multi-block layouts)
+
+`markdown`, `code`, `diagram`, `equation`, `table`, `chart`, `image`, `video`,
+`metric`, `quote`, `callout`, `definition`, `references`, `notes-only`, `spacer`.
+
+Diagram/code/equation fences also work inside `markdown` bodies:
+
+- ` ```d2 ` — D2 diagram, TALA layout
+- ` ```d2-sketch ` — hand-drawn D2
+- ` ```latex ` — arbitrary LaTeX → SVG
+- ` ```typst ` — Typst document → SVG
+- ` $...$ ` / ` $$...$$ ` — inline KaTeX maths
+
+### Stability and idempotency
+
+Give slides an `id` to get stable plan/apply diffs:
+
+```yaml
+slides:
+  - id: intro
+    layout: section
+    title: Introduction
+```
+
+`plan` diffs a manifest against a deck; `apply` creates/updates/deletes/reorders
+by `id` (with positional fallback) and is idempotent.
+
+## CLI
+
+```
+bin/p2u validate <file>            [--json]
+bin/p2u compile  <file> [--render] [--json]
+bin/p2u outline  <file>            [--json]
+bin/p2u plan     <file> --deck ID
+bin/p2u apply    <file> --deck ID --user EMAIL
+bin/p2u export   <file> --to html|notes|pdf [--out PATH]
+bin/p2u compose  "<prompt>"        [--slides N] [--theme NAME]
+bin/p2u mcp
+bin/p2u schema
+bin/p2u doctor
+```
+
+## JSON API
+
+Authenticate with `Authorization: Bearer <user.api_token>`.
+
+```
+GET  /api/decks
+POST /api/decks/import              # body: P2U manifest
+POST /api/compile                   # validate + plan
+POST /api/compose                   # prompt -> manifest
+POST /api/export                    # -> { content }
+GET  /api/schema
+GET  /api/toolchain
+POST /api/decks/:id/plan
+POST /api/decks/:id/apply
+```
+
+## MCP
+
+`bin/p2u mcp` (or `bin/p2u-mcp`, which finds a modern Ruby) speaks MCP over
+stdio. Tools: `p2u_guide`, `p2u_get_schema`, `p2u_validate`, `p2u_compile`,
+`p2u_outline`, `p2u_compose`, `p2u_render`, `p2u_export`, `p2u_list_templates`,
+`p2u_list_decks`, `p2u_get_deck`, `p2u_create_deck`, `p2u_compose_deck`,
+`p2u_plan`, `p2u_apply`, `p2u_doctor`. Resources: `p2u://guide`, `p2u://skill`,
+`p2u://schema`.
+
+## Design system
+
+One light theme everywhere — chrome, decks and slides share tokens:
+
+- Ink `#37352F`, page `#FFFFFF`, subtle surface `#F7F7F5`, hairline `#E9E9E7`,
+  secondary text `#787774`, accent `#2383E2` (Notion-flavoured).
+- D2 renders in ink (`#37352f`) on a `#f7f7f5` fill; Typst and LaTeX render in
+  `currentColor`; code uses Rouge with a Notion-flavoured palette.
+- Typography is the system UI stack; headings weight 600.
+
+## Toolchain
+
+`d2` (TALA), `typst`, `pdflatex` + `pdftocairo`, Ruby 3.4, Node. Run
+`bin/p2u doctor` to check.
+
+## Rules for agents
+
+1. Call `p2u_guide` (or read this file) before authoring.
+2. Always `validate`/`compile` and fix diagnostics before creating a deck.
+3. Check `outline` density: keep a slide under ~45 words and one idea.
+4. Prefer `id` on slides so `plan`/`apply` are stable and idempotent.
+5. Never commit secrets; the app reads `P2U_LLM_API_KEY` / `OPENAI_API_KEY`.

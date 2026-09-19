@@ -1,0 +1,42 @@
+<% content_for(:title) { "Library | Present2u" } %>
+<% @layout_class = "books" %>
+
+<% content_for :header do %>
+  <nav>
+    <span class="btn btn--placeholder" aria-hidden="true"></span>
+
+    <%= link_to root_path, class: "product__wordmark btn btn--plain txt-large center" do %>
+      <%= image_tag "present.svg", aria: { hidden: true }, size: 24, class: "colorize--black" %>
+      <span>Present2u</span>
+    <% end %>
+
+    <%= link_to deck_templates_path, class: "btn" do %>
+      <%= image_tag "view-grid.svg", aria: { hidden: true }, size: 24 %>
+      <span class="for-screen-reader">Templates</span>
+    <% end %>
+
+    <% if Current.user %>
+      <%= link_to users_path, class: "btn" do %>
+        <%= image_tag "settings.svg", aria: { hidden: true }, size: 24 %>
+        <span class="for-screen-reader">Manage people and settings</span>
+      <% end %>
+    <% else %>
+      <%= link_to new_session_path, class: "btn" do %>
+        <%= image_tag "login-keys.svg", aria: { hidden: true }, size: 24 %>
+        <span class="for-screen-reader">Sign in</span>
+      <% end %>
+    <% end %>
+  </nav>
+<% end %>
+
+<header class="library-header">
+  <h1 class="library-header__title">Decks</h1>
+  <p class="library-header__lede">Technical presentations — maths, diagrams, code and Typst, rendered and ready to present.</p>
+</header>
+
+<% cache [ @books, signed_in? ] do %>
+  <div class="library">
+    <%= render @books %>
+    <%= render "books/new" if signed_in? %>
+  </div>
+<% end %>

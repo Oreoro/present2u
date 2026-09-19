@@ -1,0 +1,42 @@
+{
+  "name": "Present2u",
+  "icons": [
+    {
+      "src": "/app-icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/app-icon.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    },
+    {
+      "src": "/app-icon.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "maskable"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "scope": "/",
+  "description": "Present2u builds technical presentations with LaTeX, D2 diagrams and code, then presents them beautifully.",
+  "categories": ["productivity", "education", "developer"],
+  "shortcuts": [
+    {
+      "name": "Create a new deck",
+      "description": "Start a new technical presentation",
+      "url": "/decks/new",
+      "icons": [{ "src": "<%= image_url("add.svg") %>", "sizes": "any" }]
+    },
+    {
+      "name": "Open decks",
+      "description": "See all your decks",
+      "url": "/",
+      "icons": [{ "src": "<%= image_url("present.svg") %>", "sizes": "any" }]
+    }
+  ],
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff"
+}

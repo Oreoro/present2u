@@ -1,0 +1,68 @@
+/* Diagrams (LaTeX, D2), code blocks and math inside slides. */
+.diagram {
+  margin-block: 0.75em;
+  text-align: center;
+}
+
+.diagram img {
+  display: inline-block;
+  max-block-size: 100%;
+  max-inline-size: 100%;
+  vertical-align: middle;
+}
+
+.slide-stage .diagram img {
+  max-block-size: 55cqh;
+}
+
+body.presenting .slide-stage .diagram img {
+  max-block-size: 60cqh;
+}
+
+.slide-stage .diagram--d2 img,
+.slide-stage .diagram--latex img {
+  max-inline-size: 100%;
+}
+
+.diagram-error {
+  background-color: color-mix(in oklab, var(--color-negative) 10%, transparent);
+  border-inline-start: 4px solid var(--color-negative);
+  color: var(--color-negative);
+  font-size: 0.85em;
+  overflow: auto;
+  padding: 0.75em 1em;
+  text-align: start;
+}
+
+.diagram-error::before {
+  content: "Render error: " attr(data-error);
+  display: block;
+  font-weight: 600;
+  margin-block-end: 0.35em;
+}
+
+.slide-stage :is(pre, .highlight) {
+  background-color: var(--color-subtle-light);
+  border-radius: var(--radius-sm);
+  font-size: 0.8em;
+  line-height: 1.45;
+  overflow: auto;
+  padding: 0.75em 1em;
+  text-align: start;
+}
+
+.slide-stage code {
+  font-size: 0.95em;
+}
+
+.katex-display {
+  margin-block: 0.6em;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+/* Display equations read as a focal element, not a thumbnail. */
+.slide-stage .diagram--latex img {
+  block-size: auto;
+  inline-size: min(64%, 100%);
+}

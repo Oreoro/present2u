@@ -1,0 +1,23 @@
+<div class="typst-editor" data-controller="typst-preview"
+     data-typst-preview-url-value="<%= preview_book_typsts_path(@book) %>">
+  <%= leafable_edit_form(typst, id: "leafable-editor") do |form| %>
+    <div class="typst-editor__grid">
+      <div class="typst-editor__pane">
+        <span class="typst-editor__label">Typst source</span>
+        <%= form.text_area :source,
+              class: "input full-width typst-editor__input",
+              required: true, autofocus: true, autocomplete: "off", spellcheck: false,
+              data: { typst_preview_target: "source", action: "input->typst-preview#render" } %>
+      </div>
+
+      <div class="typst-editor__pane">
+        <span class="typst-editor__label">Preview</span>
+        <div class="typst-editor__preview" data-typst-preview-target="preview">
+          <%= raw typst.rendered_svg %>
+        </div>
+      </div>
+    </div>
+
+    <%= form.submit "Save", hidden: true %>
+  <% end %>
+</div>
