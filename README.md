@@ -84,8 +84,8 @@ modern Ruby for you (set `P2U_RUBY` to override).
 A `Dockerfile` is included for container hosting; note it must be extended with
 `d2`, `typst` and a TeX distribution to render diagrams and equations.
 
-License: MIT — see [`LICENSE`](LICENSE) (a fork of
-[Writebook](https://github.com/basecamp/writebook), also MIT).
+License: MIT — see [`LICENSE`](LICENSE). Present2u is a fork of
+[Writebook](https://github.com/basecamp/writebook), which is also MIT.
 
 ## Quickstart
 

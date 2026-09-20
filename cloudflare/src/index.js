@@ -57,7 +57,7 @@ export default {
     const path = url.pathname;
 
     if (path === "/mcp") return mcp(request, env, url);
-    if (path === "/api") return apiIndex(url);
+    if (path === "/api") return apiIndex(env, url);
     if (path === "/api/schema") return asset(env, url, "/schema.json", "application/json");
     if (path === "/api/toolchain") return asset(env, url, "/toolchain.json", "application/json");
     if (path === "/api/templates") return asset(env, url, "/templates.json", "application/json");
@@ -66,7 +66,7 @@ export default {
   },
 };
 
-function apiIndex(url) {
+function apiIndex(env, url) {
   return json({
     name: "present2u",
     version: SERVER_VERSION,
