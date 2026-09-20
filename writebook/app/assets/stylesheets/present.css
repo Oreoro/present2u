@@ -2,44 +2,77 @@
    speaker notes and the slide overview grid. */
 
 /* Slide canvas ------------------------------------------------------- */
-.slide-stage {
-  --slide-pad: clamp(1.25rem, 5.5cqi, 4.5rem);
+/* A slide is a slide: a fixed 16:9 frame, centred, scaled to fit the
+   viewport — in reading mode as well as presenting. Overflowing content
+   scrolls inside the frame instead of stretching it. */
+body:has(.slide-stage):not(.presenting) {
+  background-color: var(--color-subtle-light);
+}
 
+#main.slide {
+  align-items: center;
+  display: grid;
+  inline-size: 100%;
+  justify-items: center;
+  max-inline-size: none;
+  min-block-size: calc(100dvh - 12rem);
+  padding-block: 1.5rem 2rem;
+  padding-inline: clamp(0.75rem, 3vw, 2.5rem);
+}
+
+#main.slide:has(.page--picture:not(.picture-form)) {
+  padding-inline: clamp(0.75rem, 3vw, 2.5rem);
+}
+
+.slide-stage {
+  --slide-pad: clamp(1.25rem, 3.5cqi, 3.5rem);
+
+  aspect-ratio: 16 / 9;
   background-color: var(--color-bg);
   border: var(--border-hairline);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
-  container-type: inline-size;
+  box-shadow: var(--shadow-lg);
+  container-type: size;
   display: flex;
   flex-direction: column;
-  inline-size: 100%;
-  justify-content: flex-start;
+  inline-size: min(100%, calc((100dvh - 14rem) * 16 / 9));
   margin-inline: auto;
+  max-block-size: calc(100dvh - 14rem);
+  overflow: hidden;
   padding: var(--slide-pad);
   position: relative;
   text-align: start;
 }
 
-/* The 16:9 slide canvas only exists while presenting. In reading mode the
-   stage grows with its content so long slides are never clipped or jumbled. */
-body.presenting .slide-stage {
-  aspect-ratio: 16 / 9;
-  border-radius: 0;
-  box-shadow: none;
-  container-type: size;
-  overflow-x: hidden;
+.slide-stage__content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: center;
+  min-block-size: 0;
   overflow-y: auto;
   overscroll-behavior: contain;
+  scrollbar-width: thin;
 }
 
+/* Kicker — small caps with a rule running to the edge. */
 .slide-stage__kicker {
+  align-items: center;
   color: var(--color-subtle-dark);
+  display: flex;
   flex-shrink: 0;
-  font-size: clamp(0.75rem, 1.5cqi, 1rem);
+  font-size: clamp(0.68rem, 1.4cqi, 0.85rem);
   font-weight: 500;
-  letter-spacing: 0.06em;
-  margin-block-end: clamp(0.5rem, 2cqi, 1.25rem);
+  gap: 1em;
+  letter-spacing: 0.09em;
+  margin-block-end: clamp(1.25rem, 3.5cqi, 2.25rem);
   text-transform: uppercase;
+
+  &::after {
+    border-block-start: 1px solid var(--color-subtle);
+    content: "";
+    flex-grow: 1;
+  }
 }
 
 .slide-stage__content {
@@ -83,9 +116,11 @@ body.presenting .slide-stage {
   opacity: 0.7;
 }
 
+/* Body slides — left aligned, comfortable measure, clear hierarchy. */
 .slide-stage .page--page {
-  font-size: clamp(1rem, 2.4cqi, 2rem);
-  line-height: 1.4;
+  font-size: clamp(1.02rem, 2.1cqi, 1.5rem);
+  line-height: 1.55;
+  max-inline-size: 68ch;
   text-align: start;
 }
 
@@ -101,9 +136,9 @@ body.presenting .slide-stage .page--page {
   margin-block-end: 0;
 }
 
-.slide-stage .page--page h1 { font-size: 1.7em; }
-.slide-stage .page--page h2 { font-size: 1.4em; }
-.slide-stage .page--page h3 { font-size: 1.2em; }
+.slide-stage .page--page h1 { font-size: 1.55em; font-weight: 600; letter-spacing: -0.01em; line-height: 1.15; }
+.slide-stage .page--page h2 { font-size: 1.28em; font-weight: 600; letter-spacing: -0.01em; }
+.slide-stage .page--page h3 { font-size: 1.1em; font-weight: 600; }
 .slide-stage .page--page img { max-inline-size: 100%; }
 
 .slide-stage .page--picture {
@@ -128,23 +163,32 @@ body.presenting .slide-stage .page--page {
   text-align: center;
 }
 
-.slide-stage__number {
+/* Footer — deck name left, position right, hairline above. */
+.slide-stage__footer {
+  align-items: center;
+  border-block-start: 1px solid var(--color-subtle);
   color: var(--color-subtle-dark);
-  font-size: clamp(0.7rem, 1.4cqi, 1rem);
-  inset: auto var(--slide-pad) calc(var(--slide-pad) / 1.6) auto;
-  position: absolute;
+  display: flex;
+  flex-shrink: 0;
+  font-size: clamp(0.68rem, 1.4cqi, 0.85rem);
+  gap: 1ch;
+  justify-content: space-between;
+  margin-block-start: clamp(1.25rem, 3.5cqi, 2.25rem);
+  padding-block-start: 0.75rem;
 }
 
-/* Single-slide view --------------------------------------------------- */
-#main.slide {
-  inline-size: min(1180px, 94vw);
-  max-inline-size: none;
-  padding-block-end: var(--block-space);
+.slide-stage__deck {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-#main.slide:has(.page--picture:not(.picture-form)) {
-  inline-size: min(1180px, 94vw);
-  padding-inline: 0;
+.slide-stage__number {
+  font-variant-numeric: tabular-nums;
+}
+
+body.presenting .slide-stage__footer {
+  display: none;
 }
 
 /* Presenting ---------------------------------------------------------- */
@@ -170,6 +214,9 @@ body.presenting {
   }
 
   .slide-stage {
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
     inline-size: min(100vw, 177.7778dvh);
     max-block-size: 100dvh;
   }

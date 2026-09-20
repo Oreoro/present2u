@@ -16,24 +16,13 @@
       <%= image_tag "present.svg", aria: { hidden: true }, size: 24, class: "colorize--black" %>
       <span class="for-screen-reader">Present from this slide</span>
     </button>
-
-    <button class="btn" data-action="fullscreen#toggle" data-fullscreen-target="button">
-      <%= image_tag "expand.svg", aria: { hidden: true }, size: 24 %>
-      <span class="for-screen-reader">Enter fullscreen</span>
-    </button>
-
-    <%= render "books/searches/search", book: @book %>
   <% end %>
 <% end %>
 
 <% content_for :toolbar do %>
-  <div class="flex flex-column">
-    <% if book.editable? %>
-      <div class="page-toolbar fill-shade">
-        <%= editing_mode_toggle_switch(@leaf, checked: false) %>
-      </div>
-    <% end %>
-
-    <%= render "books/searches/banner" %>
-  </div>
+  <% if book.editable? %>
+    <div class="page-toolbar fill-shade">
+      <%= editing_mode_toggle_switch(@leaf, checked: false) %>
+    </div>
+  <% end %>
 <% end %>

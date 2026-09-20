@@ -1,12 +1,10 @@
-<nav class="book__nav flex flex-column align-center gap-half justify-center">
-  <div class="flex align-center gap justify-center">
-    <button type="button" class="btn btn--art txt-medium" data-action="present#start">
-      <%= image_tag "present.svg", aria: { hidden: true }, size: 24 %>
-      <span>Present</span>
-    </button>
+<nav class="book__nav flex align-center gap justify-center">
+  <%= link_to_previous_leafable(leaf) %>
 
-    <%= link_to_next_leafable(leaf) %>
-  </div>
+  <button type="button" class="btn btn--art txt-medium" data-action="present#start">
+    <%= image_tag "present.svg", aria: { hidden: true }, size: 24 %>
+    <span>Present</span>
+  </button>
 
-  <p class="slide-hint txt-small">Press <kbd>F</kbd> to present</p>
+  <%= link_to_next_leafable(leaf) %>
 </nav>

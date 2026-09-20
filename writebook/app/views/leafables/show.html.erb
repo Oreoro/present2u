@@ -74,7 +74,10 @@
   <% end %>
   </div>
 
-  <span class="slide-stage__number"><%= @slide_index %> / <%= @slide_total %></span>
+  <footer class="slide-stage__footer">
+    <span class="slide-stage__deck"><%= @book.title %></span>
+    <span class="slide-stage__number"><%= @slide_index %> / <%= @slide_total %></span>
+  </footer>
 </div>
 
 <div class="present-progress" data-present-target="progress" aria-hidden="true"></div>

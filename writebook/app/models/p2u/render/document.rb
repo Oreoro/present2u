@@ -95,7 +95,7 @@ module P2u
               <section class="p2u-slide p2u-layout--#{h(slide[:layout])}" data-index="#{index}" data-notes="#{h(notes)}">
                 #{slide[:kicker].present? ? %(<span class="p2u-kicker">#{h(slide[:kicker])}</span>) : ''}
                 #{slide[:html]}
-                <span class="p2u-slide__number">#{index + 1} / #{@slides.size}</span>
+                <footer class="p2u-slide__footer"><span>#{h(@title)}</span><span class="p2u-slide__number">#{index + 1} / #{@slides.size}</span></footer>
               </section>
             SLIDE
           end.join
@@ -113,7 +113,7 @@ module P2u
             }
             html, body { margin: 0; height: 100%; }
             body.p2u {
-              background: var(--p2u-page);
+              background: color-mix(in srgb, var(--p2u-fg) 4%, var(--p2u-page));
               color: var(--p2u-fg);
               font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
               overflow: hidden;
@@ -162,17 +162,26 @@ module P2u
             }
             .p2u-slide__inner--diagram, .p2u-slide__inner--equation { justify-content: center; overflow: hidden; }
             .p2u-kicker {
-              color: var(--p2u-accent); font-size: clamp(.7rem, 1.6cqi, 1rem); font-weight: 600;
-              letter-spacing: .08em; margin-block-end: .4rem; text-transform: uppercase;
+              align-items: center; color: var(--p2u-accent); display: flex; gap: 1em;
+              font-size: clamp(.68rem, 1.4cqi, .85rem); font-weight: 600;
+              letter-spacing: .09em; margin-block-end: clamp(1rem, 3cqi, 1.75rem); text-transform: uppercase;
             }
-            .p2u-slide__number { bottom: 1.1rem; color: color-mix(in srgb, var(--p2u-fg) 45%, transparent); font-size: .8rem; position: absolute; right: 1.4rem; }
+            .p2u-kicker::after { border-block-start: 1px solid var(--p2u-subtle); content: ""; flex-grow: 1; }
+            .p2u-slide__footer {
+              align-items: center; border-block-start: 1px solid var(--p2u-subtle);
+              color: color-mix(in srgb, var(--p2u-fg) 55%, transparent); display: flex;
+              font-size: clamp(.65rem, 1.3cqi, .8rem); gap: 1ch; justify-content: space-between;
+              margin-block-start: clamp(1rem, 3cqi, 1.75rem); padding-block-start: .7rem;
+            }
+            .p2u-slide__number { font-variant-numeric: tabular-nums; }
             .p2u-heading { font-size: clamp(1.5rem, 4.4cqi, 3rem); font-weight: 600; letter-spacing: -.01em; line-height: 1.2; margin: 0; }
             .p2u-title { font-size: clamp(2.2rem, 9cqi, 6rem); font-weight: 600; letter-spacing: -.02em; line-height: 1.05; margin: 0; }
             .p2u-subtitle { color: color-mix(in srgb, var(--p2u-fg) 72%, transparent); font-size: clamp(1.1rem, 3.4cqi, 2.2rem); margin: 0; }
             .p2u-slide__inner--title, .p2u-slide__inner--section { align-items: center; justify-content: center; text-align: center; }
             .p2u-slide__inner--title .p2u-title, .p2u-slide__inner--section .p2u-title { color: var(--p2u-fg); }
             .p2u-slide__inner--section .p2u-title { color: var(--p2u-fg); }
-            .p2u-slide :is(p, li) { font-size: clamp(.95rem, 2.3cqi, 1.6rem); line-height: 1.5; }
+            .p2u-slide :is(p, li) { font-size: clamp(.95rem, 2.1cqi, 1.5rem); line-height: 1.55; max-inline-size: 68ch; }
+            .p2u-slide :is(h1,h2,h3) { font-weight: 600; }
             .p2u-slide :is(h1,h2,h3) { line-height: 1.15; }
             .p2u-slide a { color: var(--p2u-accent); }
             .p2u-slide img { border-radius: 6px; max-inline-size: 100%; }
