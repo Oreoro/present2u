@@ -20,9 +20,11 @@ export default class extends Controller {
     document.removeEventListener("keydown", this.boundKeydown)
   }
 
-  // Arm present mode then let the link navigate to the first slide.
+  // Arm present mode then let the link navigate to the first slide. Fullscreen
+  // must be requested here, during the click gesture, so the browser allows it.
   arm() {
     sessionStorage.setItem(PRESENTING_KEY, "1")
+    this.#requestFullscreen()
   }
 
   // Enter present mode immediately (used from a slide where we can fullscreen).
@@ -94,7 +96,7 @@ export default class extends Controller {
   }
 
   get #presenting() {
-    return this.element.classList.contains("presenting")
+    return this.element.classList.contains("presenting") || sessionStorage.getItem(PRESENTING_KEY) === "1"
   }
 
   #enter() {

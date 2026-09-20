@@ -1,8 +1,6 @@
 <% content_for :header do %>
   <%= leaf_nav_tag(leaf) do %>
-    <%= render "leaves/sidebar_toggle" %>
-
-    <%= link_to_previous_leafable(leaf) %>
+    <%= link_to_previous_leafable(leaf, hotkey: false) %>
 
     <div class="breadcrumbs">
       <%= render "books/index_link" %>

@@ -1,10 +1,10 @@
 <nav class="book__nav flex align-center gap justify-center">
-  <%= link_to_previous_leafable(leaf) %>
+  <%= link_to_previous_leafable(leaf, hotkey: false) %>
 
   <button type="button" class="btn btn--art txt-medium" data-action="present#start">
     <%= image_tag "present.svg", aria: { hidden: true }, size: 24 %>
     <span>Present</span>
   </button>
 
-  <%= link_to_next_leafable(leaf) %>
+  <%= link_to_next_leafable(leaf, hotkey: false) %>
 </nav>

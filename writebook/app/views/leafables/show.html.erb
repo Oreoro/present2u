@@ -51,7 +51,7 @@
       <%= raw @leaf.typst.rendered_svg %>
     </div>
   <% elsif @leaf.page? %>
-    <div class="page--page" data-controller="scroll-to-highlight">
+    <div class="page--page">
       <%= highlight_searched_content @leaf, sanitize_content(@leaf.page.body.to_html), params[:search] %>
     </div>
   <% elsif @leaf.picture? %>

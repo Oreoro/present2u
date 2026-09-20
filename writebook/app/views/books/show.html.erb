@@ -29,23 +29,12 @@
       <strong><%= @book.title %></strong>
     </div>
 
-    <%= link_to_first_leafable(@leaves) %>
-
     <% if first_leaf = @leaves.first %>
       <%= link_to leafable_slug_path(first_leaf), class: "btn btn--art present-button txt-medium", data: { action: "present#arm" } do %>
         <%= image_tag "present.svg", aria: { hidden: true }, size: 24, class: "colorize--black" %>
         <span>Present</span>
       <% end %>
     <% end %>
-
-    <span class="btn btn--placeholder placeholder-end" aria-hidden="true"></span>
-
-    <button class="btn fullscreen" data-action="fullscreen#toggle" data-fullscreen-target="button">
-      <%= image_tag "expand.svg", aria: { hidden: true }, size: 24 %>
-      <span class="for-screen-reader">Enter fullscreen</span>
-    </button>
-
-    <%= render "books/searches/search", book: @book %>
 
     <% if @book.editable? %>
       <%= link_to edit_book_path(@book), class: "btn settings" do %>
@@ -76,7 +65,6 @@
         <% end %>
       <% end %>
 
-      <span data-controller="edit-mode" data-edit-mode-editing-class="edit-mode" />
     </div>
   </aside>
 
@@ -101,19 +89,7 @@
       </p>
     </header>
 
-    <div class="book__toolbar flex gap-half <%= "position-sticky" if @book.editable? %>" data-controller="toc-view" data-toc-view-id-value="<%= dom_id(@book) %>">
-      <label class="btn txt-medium disable-when-empty">
-        <input type="radio" name="view" id="toc-list" value="list" data-toc-view-target="switch" data-toc-view-type-value="list" data-action="toc-view#saveViewPref">
-        <%= image_tag "view-list.svg", aria: { hidden: true }, size: 24 %>
-        <span class="for-screen-reader">List view</span>
-      </label>
-
-      <label class="btn txt-medium flex-item-justify-start disable-when-empty">
-        <input type="radio" name="view" id="toc-grid" value="grid" checked="checked" data-toc-view-target="switch" data-toc-view-type-value="grid" data-action="toc-view#saveViewPref">
-        <%= image_tag "view-grid.svg", aria: { hidden: true }, size: 24 %>
-        <span class="for-screen-reader">Page view</span>
-      </label>
-
+    <div class="book__toolbar flex gap-half <%= "position-sticky" if @book.editable? %>">
       <% if @book.editable? %>
         <%= render "books/create_buttons", book: @book %>
         <%= render "books/mode_buttons", book: @book %>
