@@ -73,7 +73,7 @@ module P2u
       end
 
       private
-        # Replace references to content-addressed render assets with the SVG
+      # Replace references to content-addressed render assets with the SVG
       # markup itself, so the exported file is genuinely self-contained and
       # readable without JavaScript.
       RENDERED_IMG_SRC = %r{<img src="/rendered/([a-f0-9]{64})\.svg"[^>]*>}m
