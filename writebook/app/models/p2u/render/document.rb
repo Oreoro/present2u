@@ -55,7 +55,7 @@ module P2u
           </head>
           <body class="p2u theme--#{theme}#{' p2u-scroll' if scroll?}">
           <main class="p2u-deck" data-p2u-deck>
-          #{slide_markup}
+          #{inline_rendered_svgs(slide_markup)}
           </main>
           <div class="p2u-progress" data-p2u-progress></div>
           <div class="p2u-hud">
@@ -73,7 +73,22 @@ module P2u
       end
 
       private
-        def slide_markup
+        # Replace references to content-addressed render assets with the SVG
+      # markup itself, so the exported file is genuinely self-contained and
+      # readable without JavaScript.
+      RENDERED_IMG_SRC = %r{<img src="/rendered/([a-f0-9]{64})\.svg"[^>]*>}m
+
+      def inline_rendered_svgs(html)
+        html.gsub(RENDERED_IMG_SRC) do
+          filename = "#{Regexp.last_match(1)}.svg"
+          file = RenderedAsset.file_for(filename)
+          next Regexp.last_match(0) unless file&.exist?
+
+          file.read.sub(/\A<\?xml[^>]*\?>\s*/, "")
+        end
+      end
+
+      def slide_markup
           @slides.each_with_index.map do |slide, index|
             notes = slide[:notes].to_s
             <<~SLIDE

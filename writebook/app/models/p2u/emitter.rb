@@ -78,10 +78,10 @@ module P2u
       # Mirrors the defaults DeckBuilder applies so a plan/diff is stable.
       def title_for(slide, layout)
         slide["title"].presence || typst_heading(slide) || case layout
-                                   when "section", "title" then "Section slide"
-                                   when "image", "image-grid" then "Image slide"
-                                   else "Untitled"
-                                   end
+                                                           when "section", "title" then "Section slide"
+                                                           when "image", "image-grid" then "Image slide"
+                                                           else "Untitled"
+                                                           end
       end
 
       # Use the first Typst heading (`= Title`) or a `#p2u-title("Title")` call as

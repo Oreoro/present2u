@@ -91,7 +91,7 @@ module P2u
           layout = slide["layout"].to_s
           typst = (slide["format"].presence || format).to_s == "typst"
           {
-            html: Render::Slide.new(slide, dark: dark, client_markdown: !typst, format: (typst ? "typst" : "markdown")).to_html,
+            html: Render::Slide.new(slide, dark: dark, client_markdown: false, format: (typst ? "typst" : "markdown")).to_html,
             layout: layout,
             kicker: (typst || TITLED_LAYOUTS.include?(layout) ? nil : slide["title"].presence),
             notes: slide["notes"]

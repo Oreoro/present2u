@@ -140,8 +140,8 @@ class LatexEquation
     end
 
     # pdftocairo emits the equation in solid black. Re-point those paint servers
-# at `currentColor` so the glyphs inherit the slide's ink colour and stay
-# legible on dark themes instead of vanishing into the background.
+    # at `currentColor` so the glyphs inherit the slide's ink colour and stay
+    # legible on dark themes instead of vanishing into the background.
     def use_current_color(svg)
       svg.gsub(/fill="rgb\(\s*0%,\s*0%,\s*0%\s*\)"/, 'fill="currentColor"')
          .gsub(/stroke="rgb\(\s*0%,\s*0%,\s*0%\s*\)"/, 'stroke="currentColor"')

@@ -50,7 +50,7 @@ class MarkdownRenderer < Redcarpet::Render::HTML
     elsif LATEX_LANGUAGES.include?(key)
       rendered_asset_tag("diagram diagram--latex", :latex, code, {}, "LaTeX equation")
     elsif TYPST_LANGUAGES.include?(key)
-      rendered_asset_tag("diagram diagram--typst", :typst, code, {}, "Typst document")
+      rendered_asset_tag("diagram diagram--typst", :typst, code, { slide: true }, "Typst document")
     else
       super
     end

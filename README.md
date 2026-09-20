@@ -3,7 +3,7 @@
 [![CI](https://github.com/Oreoro/present2u/actions/workflows/ci.yml/badge.svg)](https://github.com/Oreoro/present2u/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-2383e2.svg)](LICENSE)
 [![Ruby 3.4](https://img.shields.io/badge/ruby-3.4-cc342d.svg)](writebook/.ruby-version)
-[![MCP](https://img.shields.io/badge/MCP-16%20tools-37352f.svg)](https://p2u.focuslab.pk/mcp)
+[![MCP](https://img.shields.io/badge/MCP-agentic-37352f.svg)](https://p2u.focuslab.pk/mcp)
 
 **Technical presentations as source code.** Write a deck once — math, diagrams,
 code and layouts — and compile it to a live presenter, a self-contained HTML

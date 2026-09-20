@@ -1,8 +1,5 @@
 MIT License
 
-Present2u is a fork of Writebook (https://github.com/basecamp/writebook).
-Both the original work and the Present2u additions are MIT licensed.
-
 Copyright (c) 37signals, LLC (Writebook)
 Copyright (c) 2025 Present2u contributors
 
@@ -24,3 +21,8 @@ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
 LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+---
+
+Present2u is a fork of Writebook (https://github.com/basecamp/writebook),
+which is also MIT licensed.

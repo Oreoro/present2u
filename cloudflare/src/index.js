@@ -81,7 +81,8 @@ function apiIndex(url) {
       toolchain: `${url.origin}/api/toolchain`,
       templates: `${url.origin}/api/templates`,
     },
-    mcp: { transport: "streamable-http", protocol: PROTOCOL_VERSION, tools: TOOLS.map((t) => t.name), resources: RESOURCES.map((r) => r.uri) },
+    mcp: { transport: "streamable-http", protocol: PROTOCOL_VERSION, tools: availableTools(env).map((t) => t.name),
+      full_toolset: TOOLS.map((t) => t.name), resources: RESOURCES.map((r) => r.uri) },
     compiler: {
       local: "bin/p2u-mcp (stdio) or bin/p2u <validate|compile|export|plan|apply>",
       hosted: "set P2U_BACKEND_URL on the worker to proxy the full toolset",
