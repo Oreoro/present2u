@@ -14,6 +14,11 @@
       <%= image_tag "present.svg", aria: { hidden: true }, size: 24, class: "colorize--black" %>
       <span class="for-screen-reader">Present from this slide</span>
     </button>
+
+    <button class="btn" data-action="present#fullscreenToggle">
+      <%= image_tag "expand.svg", aria: { hidden: true }, size: 24 %>
+      <span class="for-screen-reader">Toggle fullscreen (F)</span>
+    </button>
   <% end %>
 <% end %>
 

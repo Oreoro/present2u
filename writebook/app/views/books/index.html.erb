@@ -1,4 +1,4 @@
-<% content_for(:title) { "Library | Present2u" } %>
+<% content_for(:title) { "Decks | Present2u" } %>
 <% @layout_class = "books" %>
 
 <% content_for :header do %>
@@ -30,13 +30,57 @@
 <% end %>
 
 <header class="library-header">
-  <h1 class="library-header__title">Decks</h1>
-  <p class="library-header__lede">Technical presentations — maths, diagrams, code and Typst, rendered and ready to present.</p>
+  <div class="library-header__text">
+    <h1 class="library-header__title">Decks</h1>
+    <p class="library-header__lede"><%= pluralize(@books.size, "deck") %> · open, present or edit</p>
+  </div>
+
+  <div class="library-header__actions">
+    <% if @books.any? %>
+      <label class="library-search">
+        <%= image_tag "search.svg", aria: { hidden: true }, size: 18, class: "colorize--black" %>
+        <input type="search" placeholder="Filter decks" data-deck-filter autocomplete="off">
+      </label>
+    <% end %>
+
+    <% if signed_in? %>
+      <%= link_to new_book_path, class: "btn btn--primary" do %>
+        <%= image_tag "add.svg", aria: { hidden: true }, size: 24 %>
+        <span>New deck</span>
+      <% end %>
+    <% end %>
+  </div>
 </header>
 
-<% cache [ @books, signed_in? ] do %>
-  <div class="library">
+<% if @books.any? %>
+  <div class="library" data-deck-list>
     <%= render @books %>
+    <%= render "books/new" if signed_in? %>
+  </div>
+
+  <p class="library-empty" data-deck-empty hidden>No decks match that filter.</p>
+
+  <script>
+    if (!window.__p2uDeckFilter) {
+      window.__p2uDeckFilter = true;
+      document.addEventListener("input", function (event) {
+        var input = event.target.closest("[data-deck-filter]");
+        if (!input) return;
+        var query = input.value.trim().toLowerCase();
+        var shown = 0;
+        document.querySelectorAll("[data-deck-tile]").forEach(function (tile) {
+          var match = !query || tile.dataset.deckTile.indexOf(query) !== -1;
+          tile.hidden = !match;
+          if (match) shown++;
+        });
+        var empty = document.querySelector("[data-deck-empty]");
+        if (empty) empty.hidden = shown !== 0;
+      });
+    }
+  </script>
+<% else %>
+  <div class="library library--empty">
+    <p class="library-header__lede">No decks yet.</p>
     <%= render "books/new" if signed_in? %>
   </div>
 <% end %>

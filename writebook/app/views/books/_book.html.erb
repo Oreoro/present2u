@@ -1,21 +1,43 @@
-<% cache book do %>
-  <figure class="library__book <%= "theme--#{book&.theme}" unless book.cover.attached? %>">
-    <div class="flex flex-column gap-half">
-      <div class="flex-inline position-relative center">
-        <% if book.cover.attached? %>
-          <%= image_tag book.cover, alt: "Book cover", class: "book__cover" %>
-        <% else %>
-          <span class="book__cover-wrapper">
-            <%= image_tag "empty-cover.png", alt: "Book cover", class: "book__cover margin-block-none center" %>
-            <span class="book__title overflow-line-clamp pad txt-align-start txt-tight-lines" style="--lines: 6" aria-hidden="true"><%= book.title %></span>
-          </span>
+<% cache [ book, Current.user&.id ] do %>
+  <article class="deck-tile" data-deck-tile="<%= [ book.title, book.subtitle, book.author ].compact.join(" ").downcase %>">
+    <%= link_to book_slug_path(book), class: "deck-tile__cover", aria: { label: book.title } do %>
+      <% if book.cover.attached? %>
+        <%= image_tag book.cover, alt: "" %>
+      <% else %>
+        <%= image_tag "empty-cover.png", alt: "", class: "deck-tile__cover-blank" %>
+        <span class="deck-tile__cover-title"><%= book.title %></span>
+      <% end %>
+    <% end %>
+
+    <div class="deck-tile__body">
+      <h2 class="deck-tile__title"><%= link_to book.title, book_slug_path(book) %></h2>
+
+      <p class="deck-tile__meta">
+        <%= pluralize(book.leaves.size, "slide") %>
+        <% if book.leaves.any? %>
+          · updated <%= book.updated_at.strftime("%b %-d") %>
         <% end %>
-        <%= turbo_frame_tag dom_id(book, :bookmark), src: book_bookmark_path(book), target: "_top" %>
+      </p>
+
+      <div class="deck-tile__actions">
+        <% if first_leaf = book.leaves.positioned.first %>
+          <%= link_to leafable_slug_path(first_leaf), class: "btn btn--small btn--primary",
+                data: { action: "present#arm" } do %>
+            <%= image_tag "present.svg", aria: { hidden: true }, size: 18, class: "colorize--black" %>
+            <span>Present</span>
+          <% end %>
+        <% end %>
+
+        <%= link_to book_slug_path(book), class: "btn btn--small" do %>
+          <span>Open</span>
+        <% end %>
+
+        <% if book.editable? %>
+          <%= link_to edit_book_path(book), class: "btn btn--small" do %>
+            <span>Edit</span>
+          <% end %>
+        <% end %>
       </div>
-      <h2 class="margin-none flex flex-column txt-normal txt-tight-lines txt-medium--responsive">
-        <strong><%= book.title %></strong>
-        <span class="overflow-line-clamp"><%= book.author %></span>
-      </h2>
     </div>
-  </figure>
+  </article>
 <% end %>
