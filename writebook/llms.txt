@@ -62,8 +62,29 @@ slides:
 
 ### Blocks (used by multi-block layouts)
 
-`markdown`, `code`, `diagram`, `equation`, `table`, `chart`, `image`, `video`,
-`metric`, `quote`, `callout`, `definition`, `references`, `notes-only`, `spacer`.
+| kind | fields |
+| --- | --- |
+| `markdown` | `body` (Markdown) |
+| `code` | `body`, `lang` |
+| `diagram` | `lang` (`d2`, `d2-sketch`, `tala`), `source` |
+| `equation` | `source` (LaTeX) |
+| `table` | `head`, `rows` |
+| `metric` | `label`, `value`, `detail` |
+| `quote` | `text`, `cite` |
+| `callout` | `body`, `tone` |
+| `image` | `url`, `caption` |
+| `definition` | `term`, `description` |
+| `references` | `items` |
+| `notes-only`, `spacer` | — |
+
+Every slide accepts `notes:` (speaker notes, Markdown). Get the full field
+reference with `bin/p2u schema` (or the `p2u_get_schema` MCP tool).
+
+### Worked examples
+
+`examples/` ships complete manifests — `raft.p2u` (technical), and
+`urbanevents-pitch.p2u` (a business pitch using `metric-row`, `timeline`,
+`diagram` and fee math).
 
 Diagram/code/equation fences also work inside `markdown` bodies:
 

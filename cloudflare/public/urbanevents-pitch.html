@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Urban Events</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.10.0/styles/github.min.css" crossorigin="anonymous">
+<style>*, *::before, *::after { box-sizing: border-box; }
+:root {
+  --p2u-bg: #f7f7f5;
+  --p2u-fg: #37352f;
+  --p2u-accent: #2383e2;
+  --p2u-subtle: #e9e9e7;
+  --p2u-page: #ffffff;
+}
+html, body { margin: 0; height: 100%; }
+body.p2u {
+  background: color-mix(in srgb, var(--p2u-fg) 4%, var(--p2u-page));
+  color: var(--p2u-fg);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  overflow: hidden;
+}
+.p2u-deck { align-items: center; display: flex; height: 100vh; justify-content: center; width: 100vw; }
+.p2u-slide {
+  aspect-ratio: 16 / 9;
+  background: var(--p2u-bg);
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0,0,0,.35);
+  container-type: inline-size;
+  display: none;
+  flex-direction: column;
+  inline-size: min(96vw, 170vh);
+  justify-content: center;
+  max-block-size: 94vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: clamp(1.5rem, 5cqi, 4.5rem);
+  position: relative;
+  text-align: start;
+}
+.p2u-slide.is-active { display: flex; }
+/* Flowing reading mode: every slide stacks and the page scrolls. */
+body.p2u-scroll { block-size: auto; overflow: auto; }
+.p2u-scroll .p2u-deck { display: block; block-size: auto; padding: clamp(1rem, 3vw, 2.5rem) 0; }
+.p2u-scroll .p2u-slide {
+  aspect-ratio: auto;
+  display: flex;
+  inline-size: min(96vw, 1080px);
+  margin: 0 auto clamp(1.5rem, 4vw, 3rem);
+  max-block-size: none;
+  overflow: visible;
+}
+.p2u-scroll .p2u-slide__inner { overflow: visible; }
+.p2u-scroll .p2u-hud, .p2u-scroll .p2u-progress { display: none; }
+.p2u-slide__inner { display: flex; flex-direction: column; gap: 1em; min-block-size: 0; }
+.p2u-slide__inner--content, .p2u-slide__inner--diagram, .p2u-slide__inner--equation,
+.p2u-slide__inner--full-code, .p2u-slide__inner--table, .p2u-slide__inner--code-split,
+.p2u-slide__inner--recap, .p2u-slide__inner--qa, .p2u-slide__inner--references,
+.p2u-slide__inner--two-column, .p2u-slide__inner--compare, .p2u-slide__inner--metric-row,
+.p2u-slide__inner--image, .p2u-slide__inner--image-grid, .p2u-slide__inner--quote {
+  justify-content: flex-start;
+  overflow: auto;
+}
+.p2u-slide__inner--diagram, .p2u-slide__inner--equation { justify-content: center; overflow: hidden; }
+.p2u-kicker {
+  align-items: center; color: var(--p2u-accent); display: flex; gap: 1em;
+  font-size: clamp(.68rem, 1.4cqi, .85rem); font-weight: 600;
+  letter-spacing: .09em; margin-block-end: clamp(1rem, 3cqi, 1.75rem); text-transform: uppercase;
+}
+.p2u-kicker::after { border-block-start: 1px solid var(--p2u-subtle); content: ""; flex-grow: 1; }
+.p2u-slide__footer {
+  align-items: center; border-block-start: 1px solid var(--p2u-subtle);
+  color: color-mix(in srgb, var(--p2u-fg) 55%, transparent); display: flex;
+  font-size: clamp(.65rem, 1.3cqi, .8rem); gap: 1ch; justify-content: space-between;
+  margin-block-start: clamp(1rem, 3cqi, 1.75rem); padding-block-start: .7rem;
+}
+.p2u-slide__number { font-variant-numeric: tabular-nums; }
+.p2u-heading { font-size: clamp(1.5rem, 4.4cqi, 3rem); font-weight: 600; letter-spacing: -.01em; line-height: 1.2; margin: 0; }
+.p2u-title { font-size: clamp(2.2rem, 9cqi, 6rem); font-weight: 600; letter-spacing: -.02em; line-height: 1.05; margin: 0; }
+.p2u-subtitle { color: color-mix(in srgb, var(--p2u-fg) 72%, transparent); font-size: clamp(1.1rem, 3.4cqi, 2.2rem); margin: 0; }
+.p2u-slide__inner--title, .p2u-slide__inner--section { align-items: center; justify-content: center; text-align: center; }
+.p2u-slide__inner--title .p2u-title, .p2u-slide__inner--section .p2u-title { color: var(--p2u-fg); }
+.p2u-slide__inner--section .p2u-title { color: var(--p2u-fg); }
+.p2u-slide :is(p, li) { font-size: clamp(.95rem, 2.1cqi, 1.5rem); line-height: 1.55; max-inline-size: 68ch; }
+.p2u-slide :is(h1,h2,h3) { font-weight: 600; }
+.p2u-slide :is(h1,h2,h3) { line-height: 1.15; }
+.p2u-slide a { color: var(--p2u-accent); }
+.p2u-slide img { border-radius: 6px; max-inline-size: 100%; }
+.p2u-slide table { border-collapse: collapse; font-size: clamp(.8rem, 2cqi, 1.25rem); inline-size: 100%; }
+.p2u-slide th, .p2u-slide td { border-bottom: 1px solid var(--p2u-subtle); padding: .5em .7em; text-align: start; }
+.p2u-slide pre { background: color-mix(in srgb, var(--p2u-fg) 7%, transparent); border: 1px solid var(--p2u-subtle); border-radius: 6px; font-size: clamp(.7rem, 1.8cqi, 1.05rem); overflow: auto; padding: 1em 1.2em; }
+.p2u-slide code { font-family: "SF Mono", ui-monospace, Menlo, Consolas, monospace; }
+.p2u-slide :not(pre) > code { background: var(--p2u-subtle); border-radius: 4px; padding: .1em .35em; }
+.p2u-columns { align-items: start; display: grid; gap: clamp(1rem, 3cqi, 2.5rem); min-block-size: 0; }
+.p2u-columns--two-column, .p2u-columns--compare { grid-template-columns: 1fr 1fr; }
+.p2u-columns--code-split { grid-template-columns: 1.15fr .85fr; }
+.p2u-columns--compare .p2u-column { background: color-mix(in srgb, var(--p2u-fg) 4%, transparent); border-radius: 8px; padding: 1em; }
+.p2u-column { min-block-size: 0; min-inline-size: 0; }
+.p2u-column > :first-child { margin-block-start: 0; }
+.p2u-column > :last-child { margin-block-end: 0; }
+.p2u-metrics { display: grid; gap: clamp(.75rem, 2.5cqi, 1.75rem); grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+.p2u-metric { background: color-mix(in srgb, var(--p2u-fg) 4%, transparent); border: 1px solid var(--p2u-subtle); border-radius: 8px; display: flex; flex-direction: column; gap: .3em; padding: 1.1em 1.3em; }
+.p2u-metric__value { font-size: clamp(1.6rem, 5cqi, 3.2rem); font-weight: 600; letter-spacing: -.01em; }
+.p2u-metric__label { color: color-mix(in srgb, var(--p2u-fg) 68%, transparent); font-size: clamp(.75rem, 1.9cqi, 1.1rem); }
+.p2u-quote { border-inline-start: 3px solid var(--p2u-accent); margin: 0; padding-inline-start: 1.1em; }
+.p2u-quote p { font-size: clamp(1.3rem, 4cqi, 2.6rem) !important; font-weight: 500; line-height: 1.25; margin: 0; }
+.p2u-quote cite { color: color-mix(in srgb, var(--p2u-fg) 65%, transparent); display: block; font-size: clamp(.85rem, 2cqi, 1.2rem); margin-block-start: .6em; }
+.p2u-diagram, .p2u-equation { align-items: center; color: var(--p2u-fg); display: flex; justify-content: center; min-block-size: 0; }
+.p2u-diagram svg, .p2u-equation svg { block-size: auto; max-block-size: 100%; max-inline-size: 100%; }
+.p2u-equation svg { max-block-size: 40vh; }
+.p2u-diagram svg { max-block-size: 58vh; }
+.p2u-diagram--sketch {
+  border: 2px solid color-mix(in srgb, var(--p2u-fg) 28%, transparent);
+  border-radius: 18px 8px 16px 10px / 10px 16px 8px 18px;
+  padding: clamp(.5rem, 2cqi, 1.25rem);
+}
+.p2u-diagram--sketch svg { max-block-size: 52vh; }
+.p2u-slide__inner--typst { justify-content: center; overflow: hidden; }
+.p2u-typst { align-items: center; color: var(--p2u-fg); display: flex; justify-content: center; min-block-size: 0; }
+.p2u-typst svg { block-size: auto; max-block-size: 100%; max-inline-size: 100%; }
+.p2u-images--image-grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+.p2u-images figure { margin: 0; }
+.p2u-images figcaption { color: color-mix(in srgb, var(--p2u-fg) 62%, transparent); font-size: .85rem; margin-block-start: .4em; }
+.p2u-callout { background: color-mix(in srgb, var(--p2u-fg) 5%, transparent); border-inline-start: 3px solid var(--p2u-accent); border-radius: 6px; padding: .8em 1em; }
+.p2u-definition { margin: 0; } .p2u-definition dt { font-weight: 600; } .p2u-definition dd { margin: .2em 0 0; }
+.p2u-error { color: #ff9a9a; }
+.p2u-progress { background: var(--p2u-accent); block-size: 3px; inline-size: 0; left: 0; position: fixed; top: 0; transition: inline-size .2s ease; z-index: 30; }
+.p2u-hud { align-items: center; bottom: 1rem; display: flex; gap: .5rem; left: 50%; position: fixed; transform: translateX(-50%); z-index: 30; }
+.p2u-hud button, .p2u-hud span { background: color-mix(in srgb, var(--p2u-fg) 10%, transparent); border: 1px solid color-mix(in srgb, var(--p2u-fg) 20%, transparent); border-radius: 4px; color: var(--p2u-fg); cursor: pointer; font: inherit; font-size: .85rem; min-inline-size: 2.4rem; padding: .45rem .8rem; }
+.p2u-hud button:hover { background: color-mix(in srgb, var(--p2u-fg) 18%, transparent); }
+.p2u-notes-panel { background: var(--p2u-bg); border-block-start: 1px solid var(--p2u-subtle); bottom: 0; color: var(--p2u-fg); font-size: 1rem; left: 0; line-height: 1.5; max-block-size: 34vh; overflow: auto; padding: 1.2rem 1.5rem; position: fixed; right: 0; white-space: pre-wrap; z-index: 40; }
+@media print {
+  @page { margin: 0; size: 297mm 167mm; }
+  html, body { height: auto; overflow: visible; }
+  body.p2u { background: #fff; }
+  .p2u-deck { display: block; height: auto; }
+  .p2u-slide { aspect-ratio: auto; border-radius: 0; box-shadow: none; display: flex !important; inline-size: 100%; min-block-size: 167mm; page-break-after: always; }
+  .p2u-hud, .p2u-progress, .p2u-notes-panel { display: none !important; }
+}
+</style>
+</head>
+<body class="p2u theme--white">
+<main class="p2u-deck" data-p2u-deck>
+<section class="p2u-slide p2u-layout--title" data-index="0" data-notes="Urban Events (urbanevents.pk) is an event ticketing platform for Pakistan: publish an event page, sell tickets in PKR, check guests in from any phone. Pitch goal: seed interest from investors and early organizer partners.
+">
+  
+  <div class="p2u-slide__inner p2u-slide__inner--title"><h1 class="p2u-title">Urban Events</h1><p class="p2u-subtitle">Every great event starts here — ticketing built for Pakistan.</p></div>
+  <footer class="p2u-slide__footer"><span>Urban Events</span><span class="p2u-slide__number">1 / 11</span></footer>
+</section>
+<section class="p2u-slide p2u-layout--content" data-index="1" data-notes="Pain points: cash queues at the gate, scalpers and fake tickets, no trust between attendee and organizer, and zero sales data. (Framing based on the market the site targets — student societies, MUNs, meetups.)
+">
+  
+  <div class="p2u-slide__inner p2u-slide__inner--content"><h2 class="p2u-heading">The problem</h2><p>Event ticketing in Pakistan still runs on paper and cash: queue at the gate,
+fake tickets, no data. Organizers juggle bank transfers and spreadsheets;
+attendees have no trusted way to buy ahead.</p>
+</div>
+  <footer class="p2u-slide__footer"><span>Urban Events</span><span class="p2u-slide__number">2 / 11</span></footer>
+</section>
+<section class="p2u-slide p2u-layout--content" data-index="2" data-notes="Direct from urbanevents.pk: event pages, PKR checkout with local gateways, QR check-in, live analytics, custom branding, attendee messaging, CSV exports, automated payouts.
+">
+  
+  <div class="p2u-slide__inner p2u-slide__inner--content"><h2 class="p2u-heading">The solution</h2><p>A self-serve platform: publish a branded event page, sell tickets in PKR
+through JazzCash, Easypaisa and bank transfer, and scan QR codes at the
+gate from any phone. Free for free events.</p>
+</div>
+  <footer class="p2u-slide__footer"><span>Urban Events</span><span class="p2u-slide__number">3 / 11</span></footer>
+</section>
+<section class="p2u-slide p2u-layout--diagram" data-index="3" data-notes="One flow, end to end: attendee browses, pays in PKR, receives a QR ticket, gets scanned at the gate, and the organizer dashboard syncs live counts.
+">
+  <span class="p2u-kicker">How it works</span>
+  <div class="p2u-slide__inner p2u-slide__inner--diagram"><div class="p2u-diagram"><?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" data-d2-version="v0.9.0" preserveAspectRatio="xMinYMin meet" viewBox="0 0 1551 108"><svg class="d2-232169777 d2-svg" width="1551" height="108" viewBox="-21 -21 1551 108"><rect x="-21" y="-21" width="1551" height="108" rx="0" fill="transparent" class=" fill-N7" stroke-width="0" /><style type="text/css"><![CDATA[
+.d2-232169777 .text-mono-bold {
+	font-family: "d2-232169777-font-mono-bold";
+}
+@font-face {
+	font-family: d2-232169777-font-mono-bold;
+	src: url("data:application/font-woff;base64,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");
+}
+.d2-232169777 .text-mono-italic {
+	font-family: "d2-232169777-font-mono-italic";
+}
+@font-face {
+	font-family: d2-232169777-font-mono-italic;
+	src: url("data:application/font-woff;base64,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");
+}]]></style><style type="text/css"><![CDATA[.shape {
+  shape-rendering: geometricPrecision;
+  stroke-linejoin: round;
+}
+.connection {
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.blend {
+  mix-blend-mode: multiply;
+  opacity: 0.5;
+}
+
+		.d2-232169777 .fill-N1{fill:#37352f;}
+		.d2-232169777 .fill-N2{fill:#37352f;}
+		.d2-232169777 .fill-N7{fill:#f7f7f5;}
+		.d2-232169777 .fill-B1{fill:#37352f;}
+		.d2-232169777 .fill-B6{fill:#f7f7f5;}
+		.d2-232169777 .stroke-B1{stroke:#37352f;}
+		.d2-232169777 .stroke-B2{stroke:#37352f;}.appendix text.text{fill:#37352f}.md{--color-fg-default:#37352f;--color-fg-muted:#37352f;--color-fg-subtle:#9499AB;--color-canvas-default:#f7f7f5;--color-canvas-subtle:#EEF1F8;--color-border-default:#37352f;--color-border-muted:#37352f;--color-neutral-muted:#EEF1F8;--color-accent-fg:#37352f;--color-accent-emphasis:#37352f;--color-attention-subtle:#37352f;--color-danger-fg:red;}.light-code{display: block}.dark-code{display: none}]]></style><g class="ZmFu"><g class="shape" ><rect x="0" y="0" width="122" height="66" stroke="#37352f" fill="#f7f7f5" class=" stroke-B1 fill-B6" style="stroke-width:2;" /></g><text x="61" y="38.5" fill="#37352f" class="text-mono-bold fill-N1" style="text-anchor:middle;font-size:16px">ATTENDEE</text></g><g class="YnJvd3Nl"><g class="shape" ><rect x="224" y="0" width="207" height="66" stroke="#37352f" fill="#f7f7f5" class=" stroke-B1 fill-B6" style="stroke-width:2;" /></g><text x="327.5" y="38.5" fill="#37352f" class="text-mono-bold fill-N1" style="text-anchor:middle;font-size:16px">BROWSE EVENT PAGE</text></g><g class="cGF5"><g class="shape" ><rect x="532" y="0" width="141" height="66" stroke="#37352f" fill="#f7f7f5" class=" stroke-B1 fill-B6" style="stroke-width:2;" /></g><text x="602.5" y="38.5" fill="#37352f" class="text-mono-bold fill-N1" style="text-anchor:middle;font-size:16px">PAY IN PKR</text></g><g class="dGlja2V0"><g class="shape" ><rect x="774" y="0" width="132" height="66" stroke="#37352f" fill="#f7f7f5" class=" stroke-B1 fill-B6" style="stroke-width:2;" /></g><text x="840" y="38.5" fill="#37352f" class="text-mono-bold fill-N1" style="text-anchor:middle;font-size:16px">QR TICKET</text></g><g class="Z2F0ZQ=="><g class="shape" ><rect x="1007" y="0" width="160" height="66" stroke="#37352f" fill="#f7f7f5" class=" stroke-B1 fill-B6" style="stroke-width:2;" /></g><text x="1087" y="38.5" fill="#37352f" class="text-mono-bold fill-N1" style="text-anchor:middle;font-size:16px">SCAN AT GATE</text></g><g class="ZGFzaA=="><g class="shape" ><rect x="1281" y="0" width="228" height="66" stroke="#37352f" fill="#f7f7f5" class=" stroke-B1 fill-B6" style="stroke-width:2;" /></g><text x="1395" y="38.5" fill="#37352f" class="text-mono-bold fill-N1" style="text-anchor:middle;font-size:16px">ORGANIZER DASHBOARD</text></g><g class="KGZhbiAtJmd0OyBicm93c2UpWzBd"><marker id="mk-d2-232169777-3488378134" markerWidth="10" markerHeight="12" refX="7" refY="6" viewBox="0 0 10 12" orient="auto" markerUnits="userSpaceOnUse"> <polygon points="0,0 10,6 0,12" fill="#37352f" class="connection fill-B1" stroke-width="2" /> </marker><path d="M 124 33 L 220 33" stroke="#37352f" fill="none" class="connection stroke-B1" style="stroke-width:2;" marker-end="url(#mk-d2-232169777-3488378134)" mask="url(#d2-232169777)" /></g><g class="KGJyb3dzZSAtJmd0OyBwYXkpWzBd"><path d="M 433 33 L 528 33" stroke="#37352f" fill="none" class="connection stroke-B1" style="stroke-width:2;" marker-end="url(#mk-d2-232169777-3488378134)" mask="url(#d2-232169777)" /></g><g class="KHBheSAtJmd0OyB0aWNrZXQpWzBd"><path d="M 675 33 L 770 33" stroke="#37352f" fill="none" class="connection stroke-B1" style="stroke-width:2;" marker-end="url(#mk-d2-232169777-3488378134)" mask="url(#d2-232169777)" /></g><g class="KHRpY2tldCAtJmd0OyBnYXRlKVswXQ=="><path d="M 908 33 L 1003 33" stroke="#37352f" fill="none" class="connection stroke-B1" style="stroke-width:2;" marker-end="url(#mk-d2-232169777-3488378134)" mask="url(#d2-232169777)" /></g><g class="KGdhdGUgLSZndDsgZGFzaClbMF0="><path d="M 1169 33 L 1277 33" stroke="#37352f" fill="none" class="connection stroke-B1" style="stroke-width:2;" marker-end="url(#mk-d2-232169777-3488378134)" mask="url(#d2-232169777)" /><text x="1224" y="22" fill="#37352f" class="text-mono-italic fill-N2" style="text-anchor:middle;font-size:16px">LIVE COUNTS</text></g><mask id="d2-232169777" maskUnits="userSpaceOnUse" x="-21" y="-21" width="1551" height="108">
+<rect x="-21" y="-21" width="1551" height="108" fill="#f7f7f5"></rect>
+<rect x="1170" y="6" width="108" height="21" fill="rgba(0,0,0,0.75)"></rect>
+</mask></svg></svg>
+</div></div>
+  <footer class="p2u-slide__footer"><span>Urban Events</span><span class="p2u-slide__number">4 / 11</span></footer>
+</section>
+<section class="p2u-slide p2u-layout--metric-row" data-index="4" data-notes="ASSUMPTIONS, not verified figures: tens of thousands of MUNs, concerts, workshops, sports weeks and charity drives run yearly across Pakistan; ~150 paid tickets per event at ~PKR 1,000 average implies a multi-million dollar ticket GMV pool for a 5% fee to address.
+">
+  
+  <div class="p2u-slide__inner p2u-slide__inner--metric-row"><h2 class="p2u-heading">Market (estimates)</h2><div class="p2u-metrics"><div class="p2u-metric"><span class="p2u-metric__value">50k+</span><span class="p2u-metric__label">Target events / year</span></div><div class="p2u-metric"><span class="p2u-metric__value">150</span><span class="p2u-metric__label">Avg paid tickets / event</span></div><div class="p2u-metric"><span class="p2u-metric__value">$15M+</span><span class="p2u-metric__label">Addressable GMV / yr</span></div></div></div>
+  <footer class="p2u-slide__footer"><span>Urban Events</span><span class="p2u-slide__number">5 / 11</span></footer>
+</section>
+<section class="p2u-slide p2u-layout--content" data-index="5" data-notes="Verified from the site&#39;s pricing: 5% per paid ticket, free for free events, no monthly fees. Fee math: on a PKR 1,000 ticket we keep $1000 \times 5\% = 50$ PKR; an event of 300 tickets yields $300 \times 50 = 15{,}000$ PKR.
+">
+  
+  <div class="p2u-slide__inner p2u-slide__inner--content"><h2 class="p2u-heading">Business model</h2><p>Free for free events; a simple <strong>5% per paid ticket</strong> added at checkout —
+no monthly fees, no contracts. At scale: organizer SaaS for branding,
+messaging and analytics.</p>
+</div>
+  <footer class="p2u-slide__footer"><span>Urban Events</span><span class="p2u-slide__number">6 / 11</span></footer>
+</section>
+<section class="p2u-slide p2u-layout--timeline" data-index="6" data-notes="ASSUMPTIONS: the public site does not disclose traction numbers. Roadmap is our proposal — validate current volumes with the founders before investing.
+">
+  <span class="p2u-kicker">Traction &amp; roadmap (assumptions)</span>
+  <div class="p2u-slide__inner p2u-slide__inner--timeline"><h2 class="p2u-heading">Traction &amp; roadmap (assumptions)</h2><ul>
+<li>
+<strong>Now</strong> — live product: pages, PKR checkout, QR check-in</li>
+<li>
+<strong>Next</strong> — 100 organizer signups, first paid-event cohort</li>
+<li>
+<strong>Later</strong> — seat maps, season passes, organizer SaaS tier</li>
+</ul>
+</div>
+  <footer class="p2u-slide__footer"><span>Urban Events</span><span class="p2u-slide__number">7 / 11</span></footer>
+</section>
+<section class="p2u-slide p2u-layout--content" data-index="7" data-notes="The enablers: instant local payment rails, phones-as-scanners, and a young organizer base. Positioning claim — verify competitive landscape.
+">
+  
+  <div class="p2u-slide__inner p2u-slide__inner--content"><h2 class="p2u-heading">Why now</h2><p>Local rails (JazzCash, Easypaisa) are mainstream, QR adoption is ubiquitous,
+and student-run events are already digital-first. No incumbent owns
+self-serve ticketing for Pakistan.</p>
+</div>
+  <footer class="p2u-slide__footer"><span>Urban Events</span><span class="p2u-slide__number">8 / 11</span></footer>
+</section>
+<section class="p2u-slide p2u-layout--content" data-index="8" data-notes="PLACEHOLDER: no team info on the public site. Fill in founder names, backgrounds and advisors before any investor meeting.
+">
+  
+  <div class="p2u-slide__inner p2u-slide__inner--content"><h2 class="p2u-heading">Team</h2><p>Placeholder — founders with product and payments experience in Pakistan.
+<em>Replace with real bios before presenting.</em></p>
+</div>
+  <footer class="p2u-slide__footer"><span>Urban Events</span><span class="p2u-slide__number">9 / 11</span></footer>
+</section>
+<section class="p2u-slide p2u-layout--content" data-index="9" data-notes="CTA: partner pilots with student societies and MUN organizers now; open a pre-seed conversation. Contact via urbanevents.pk.
+">
+  
+  <div class="p2u-slide__inner p2u-slide__inner--content"><h2 class="p2u-heading">The ask</h2><p>Seeking pilot organizers and a pre-seed round to grow GTM. One line of code,
+one event page, one gate — come sell out your next event with us.</p>
+</div>
+  <footer class="p2u-slide__footer"><span>Urban Events</span><span class="p2u-slide__number">10 / 11</span></footer>
+</section>
+<section class="p2u-slide p2u-layout--end" data-index="10" data-notes="Close: invite questions; offer a live demo of publish → sell → scan.
+">
+  
+  <div class="p2u-slide__inner p2u-slide__inner--end"><h2 class="p2u-heading">Thank you</h2><p>urbanevents.pk — every great event starts here.</p>
+</div>
+  <footer class="p2u-slide__footer"><span>Urban Events</span><span class="p2u-slide__number">11 / 11</span></footer>
+</section>
+
+</main>
+<div class="p2u-progress" data-p2u-progress></div>
+<div class="p2u-hud">
+  <button type="button" data-p2u-prev aria-label="Previous slide">‹</button>
+  <span data-p2u-counter>1 / 11</span>
+  <button type="button" data-p2u-next aria-label="Next slide">›</button>
+  <button type="button" data-p2u-notes aria-label="Speaker notes (N)">notes</button>
+</div>
+<aside class="p2u-notes-panel" data-p2u-notes-panel hidden></aside>
+<script>(function () {
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.p2u-slide'));
+  if (!slides.length) return;
+  var index = 0;
+  var counter = document.querySelector('[data-p2u-counter]');
+  var progress = document.querySelector('[data-p2u-progress]');
+  var notesPanel = document.querySelector('[data-p2u-notes-panel]');
+
+  function render() {
+    slides.forEach(function (slide, i) { slide.classList.toggle('is-active', i === index); });
+    if (counter) counter.textContent = (index + 1) + ' / ' + slides.length;
+    if (progress) progress.style.inlineSize = ((index + 1) / slides.length * 100) + '%';
+    if (notesPanel) notesPanel.textContent = slides[index].dataset.notes || 'No speaker notes for this slide.';
+  }
+  function go(n) { index = Math.max(0, Math.min(slides.length - 1, n)); render(); }
+  function next() { go(index + 1); }
+  function prev() { go(index - 1); }
+
+  document.querySelector('[data-p2u-next]').addEventListener('click', next);
+  document.querySelector('[data-p2u-prev]').addEventListener('click', prev);
+  document.querySelector('[data-p2u-notes]').addEventListener('click', function () {
+    if (notesPanel) notesPanel.hidden = !notesPanel.hidden;
+  });
+
+  document.addEventListener('keydown', function (event) {
+    if (event.target.closest('input, textarea, select')) return;
+    switch (event.key) {
+      case 'ArrowRight': case ' ': case 'PageDown': case 'Enter': event.preventDefault(); next(); break;
+      case 'ArrowLeft': case 'PageUp': event.preventDefault(); prev(); break;
+      case 'Home': event.preventDefault(); go(0); break;
+      case 'End': event.preventDefault(); go(slides.length - 1); break;
+      case 'f': case 'F':
+        if (document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen && document.documentElement.requestFullscreen();
+        break;
+      case 'n': case 'N': if (notesPanel) notesPanel.hidden = !notesPanel.hidden; break;
+      case 'Escape': if (notesPanel) notesPanel.hidden = true; break;
+    }
+  });
+  document.addEventListener('click', function (event) {
+    if (event.target.closest('.p2u-hud, .p2u-notes-panel, a, button')) return;
+    (event.clientX / window.innerWidth > 0.5 ? next : prev)();
+  });
+
+  render();
+})();
+</script>
+<script type="module">import MarkdownIt from 'https://cdn.jsdelivr.net/npm/markdown-it@14.1.0/+esm';
+import katex from 'https://cdn.jsdelivr.net/npm/katex@0.16.11/+esm';
+import texmath from 'https://cdn.jsdelivr.net/npm/markdown-it-texmath@1.0.0/+esm';
+import renderMathInElement from 'https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.mjs';
+import hljs from 'https://cdn.jsdelivr.net/npm/highlight.js@11.10.0/+esm';
+
+const md = new MarkdownIt({ html: true, linkify: true, breaks: false });
+md.use(texmath, { engine: katex, delimiters: 'dollars', katexOptions: { throwOnError: false } });
+md.options.highlight = function (source, language) {
+  if (language && hljs.getLanguage(language)) {
+    try {
+      return '<pre class="hljs"><code>' + hljs.highlight(source, { language: language, ignoreIllegals: true }).value + '</code></pre>';
+    } catch (error) {}
+  }
+  return '<pre class="hljs"><code>' + md.utils.escapeHtml(source) + '</code></pre>';
+};
+
+function renderMarkdown() {
+  document.querySelectorAll('.p2u-md').forEach(function (container) {
+    if (container.dataset.rendered) return;
+    var assets = {};
+    try { assets = JSON.parse(container.dataset.assets || '{}'); } catch (error) {}
+    var html = md.render(container.textContent);
+    Object.keys(assets).forEach(function (token) {
+      var block = assets[token];
+      html = html.replace(new RegExp('<p>\s*' + token + '\s*</p>', 'g'), block);
+      html = html.split(token).join(block);
+    });
+    container.innerHTML = html;
+    container.dataset.rendered = '1';
+  });
+  renderMathInElement(document.body, {
+    delimiters: [
+      { left: '$$', right: '$$', display: true },
+      { left: '$', right: '$', display: false },
+      { left: '\\(', right: '\\)', display: false },
+      { left: '\\[', right: '\\]', display: true }
+    ],
+    throwOnError: false
+  });
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', renderMarkdown);
+} else {
+  renderMarkdown();
+}
+</script>
+</body>
+</html>

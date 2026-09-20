@@ -71,6 +71,13 @@ quote callout definition references notes-only spacer`.
 `p2u_compose_deck` (prompt → created deck) and `p2u_create_deck`, then
 `p2u_plan`/`p2u_apply` for updates. Read `p2u://guide` first.
 
+## Block fields you will actually use
+
+- `markdown` → `body`; `code` → `body` + `lang`; `diagram` → `lang` + `source`;
+  `equation` → `source`; `metric` → `label` + `value`; `quote` → `text` + `cite`.
+- Every slide takes `notes:` (speaker notes).
+- Full field reference: `bin/p2u schema`.
+
 ## Rules
 
 - Validate before creating; never ship a deck with error diagnostics.

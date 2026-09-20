@@ -1,0 +1,141 @@
+p2u: 1
+deck:
+  title: Urban Events
+  subtitle: Ticketing for Pakistan — publish, sell in PKR, scan at the gate
+  author: Urban Events
+  theme: white
+slides:
+  - id: title
+    layout: title
+    title: Urban Events
+    body: Every great event starts here — ticketing built for Pakistan.
+    notes: >
+      Urban Events (urbanevents.pk) is an event ticketing platform for Pakistan:
+      publish an event page, sell tickets in PKR, check guests in from any phone.
+      Pitch goal: seed interest from investors and early organizer partners.
+
+  - id: problem
+    layout: content
+    title: The problem
+    body: |
+      Event ticketing in Pakistan still runs on paper and cash: queue at the gate,
+      fake tickets, no data. Organizers juggle bank transfers and spreadsheets;
+      attendees have no trusted way to buy ahead.
+    notes: >
+      Pain points: cash queues at the gate, scalpers and fake tickets, no trust
+      between attendee and organizer, and zero sales data. (Framing based on the
+      market the site targets — student societies, MUNs, meetups.)
+
+  - id: solution
+    layout: content
+    title: The solution
+    body: |
+      A self-serve platform: publish a branded event page, sell tickets in PKR
+      through JazzCash, Easypaisa and bank transfer, and scan QR codes at the
+      gate from any phone. Free for free events.
+    notes: >
+      Direct from urbanevents.pk: event pages, PKR checkout with local gateways,
+      QR check-in, live analytics, custom branding, attendee messaging, CSV
+      exports, automated payouts.
+
+  - id: how-it-works
+    layout: diagram
+    title: How it works
+    blocks:
+      - kind: diagram
+        source: |
+          direction: right
+          fan: Attendee
+          browse: Browse event page
+          pay: Pay in PKR
+          ticket: QR ticket
+          gate: Scan at gate
+          dash: Organizer dashboard
+          fan -> browse -> pay -> ticket -> gate
+          gate -> dash: live counts
+    notes: >
+      One flow, end to end: attendee browses, pays in PKR, receives a QR ticket,
+      gets scanned at the gate, and the organizer dashboard syncs live counts.
+
+  - id: market
+    layout: metric-row
+    title: Market (estimates)
+    blocks:
+      - kind: metric
+        label: Target events / year
+        value: 50k+
+      - kind: metric
+        label: Avg paid tickets / event
+        value: 150
+      - kind: metric
+        label: Addressable GMV / yr
+        value: $15M+
+    notes: >
+      ASSUMPTIONS, not verified figures: tens of thousands of MUNs, concerts,
+      workshops, sports weeks and charity drives run yearly across Pakistan;
+      ~150 paid tickets per event at ~PKR 1,000 average implies a multi-million
+      dollar ticket GMV pool for a 5% fee to address.
+
+  - id: model
+    layout: content
+    title: Business model
+    body: |
+      Free for free events; a simple **5% per paid ticket** added at checkout —
+      no monthly fees, no contracts. At scale: organizer SaaS for branding,
+      messaging and analytics.
+    notes: >
+      Verified from the site's pricing: 5% per paid ticket, free for free events,
+      no monthly fees. Fee math: on a PKR 1,000 ticket we keep $1000 \times 5\% = 50$ PKR;
+      an event of 300 tickets yields $300 \times 50 = 15{,}000$ PKR.
+
+  - id: traction
+    layout: timeline
+    title: Traction & roadmap (assumptions)
+    blocks:
+      - kind: markdown
+        body: |
+          - **Now** — live product: pages, PKR checkout, QR check-in
+          - **Next** — 100 organizer signups, first paid-event cohort
+          - **Later** — seat maps, season passes, organizer SaaS tier
+    notes: >
+      ASSUMPTIONS: the public site does not disclose traction numbers. Roadmap
+      is our proposal — validate current volumes with the founders before
+      investing.
+
+  - id: why-now
+    layout: content
+    title: Why now
+    body: |
+      Local rails (JazzCash, Easypaisa) are mainstream, QR adoption is ubiquitous,
+      and student-run events are already digital-first. No incumbent owns
+      self-serve ticketing for Pakistan.
+    notes: >
+      The enablers: instant local payment rails, phones-as-scanners, and a young
+      organizer base. Positioning claim — verify competitive landscape.
+
+  - id: team
+    layout: content
+    title: Team
+    body: |
+      Placeholder — founders with product and payments experience in Pakistan.
+      *Replace with real bios before presenting.*
+    notes: >
+      PLACEHOLDER: no team info on the public site. Fill in founder names,
+      backgrounds and advisors before any investor meeting.
+
+  - id: ask
+    layout: content
+    title: The ask
+    body: |
+      Seeking pilot organizers and a pre-seed round to grow GTM. One line of code,
+      one event page, one gate — come sell out your next event with us.
+    notes: >
+      CTA: partner pilots with student societies and MUN organizers now; open a
+      pre-seed conversation. Contact via urbanevents.pk.
+
+  - id: end
+    layout: end
+    title: Thank you
+    body: urbanevents.pk — every great event starts here.
+    notes: >
+      Close: invite questions; offer a live demo of publish → sell → scan.
