@@ -21,8 +21,13 @@ Rails.application.routes.draw do
 
   # Customer-facing URLs say decks and slides; models stay Book/Leaf internally.
   resources :books, path: "decks", except: %i[ index show ] do
+    member do
+      post :duplicate
+    end
+
     resource :publication, path: "share", controller: "books/publications", only: %i[ show edit update ]
     resource :bookmark, path: "resume", controller: "books/bookmarks", only: :show
+    resource :export, only: :show, controller: "books/exports"
 
     scope module: "books" do
       namespace :leaves, path: "slides" do

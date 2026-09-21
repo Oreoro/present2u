@@ -82,12 +82,20 @@
           <% end %>
         <% end %>
 
+        <%= link_to book_export_path(@book, to: "html"), class: "btn" do %>
+          <%= image_tag "download.svg", aria: { hidden: true }, size: 20, class: "colorize--black" %>
+          <span>Export</span>
+        <% end %>
+
         <% if @book.editable? %>
           <%= link_to book_publication_path(@book), class: "btn" do %>
             <span>Share</span>
           <% end %>
           <%= link_to edit_book_path(@book), class: "btn" do %>
             <span>Settings</span>
+          <% end %>
+          <%= button_to duplicate_book_path(@book), class: "btn", form_class: "flex-inline" do %>
+            <span>Duplicate</span>
           <% end %>
         <% end %>
       </div>

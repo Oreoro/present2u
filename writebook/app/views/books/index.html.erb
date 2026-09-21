@@ -36,11 +36,11 @@
   </div>
 
   <div class="library-header__actions">
-    <% if @books.any? %>
-      <label class="library-search">
+    <% if @books.any? || @query.present? %>
+      <%= form_with url: root_path, method: :get, class: "library-search" do |form| %>
         <%= image_tag "search.svg", aria: { hidden: true }, size: 18, class: "colorize--black" %>
-        <input type="search" placeholder="Filter decks" data-deck-filter autocomplete="off">
-      </label>
+        <%= form.search_field :q, value: @query, placeholder: "Search decks", autocomplete: "off" %>
+      <% end %>
     <% end %>
 
     <% if signed_in? %>
@@ -58,26 +58,7 @@
     <%= render "books/new" if signed_in? %>
   </div>
 
-  <p class="library-empty" data-deck-empty hidden>No decks match that filter.</p>
 
-  <script>
-    if (!window.__p2uDeckFilter) {
-      window.__p2uDeckFilter = true;
-      document.addEventListener("input", function (event) {
-        var input = event.target.closest("[data-deck-filter]");
-        if (!input) return;
-        var query = input.value.trim().toLowerCase();
-        var shown = 0;
-        document.querySelectorAll("[data-deck-tile]").forEach(function (tile) {
-          var match = !query || tile.dataset.deckTile.indexOf(query) !== -1;
-          tile.hidden = !match;
-          if (match) shown++;
-        });
-        var empty = document.querySelector("[data-deck-empty]");
-        if (empty) empty.hidden = shown !== 0;
-      });
-    }
-  </script>
 <% else %>
   <div class="library library--empty">
     <p class="library-header__lede">No decks yet.</p>
