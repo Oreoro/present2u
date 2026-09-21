@@ -1,0 +1,13 @@
+{
+  "name": "present2u-renderer",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Native render service for Present2u Cloud (d2, typst, pdflatex, chrome)",
+  "main": "server.mjs",
+  "scripts": {
+    "start": "node server.mjs",
+    "build": "docker build -t present2u-renderer .",
+    "run": "docker run --rm -p 8080:8080 present2u-renderer"
+  }
+}

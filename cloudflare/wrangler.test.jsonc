@@ -1,0 +1,36 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "present2u-test",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-04-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/*", "/mcp", "/auth/*", "/rendered/*", "/d2/*"]
+  },
+  "vars": {
+    "P2U_VERSION": "1",
+    "PUBLIC_ORIGIN": "http://localhost",
+    "RENDER_TIMEOUT_MS": "30000"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "present2u-test",
+      "database_id": "test-db",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "kv_namespaces": [{ "binding": "CACHE", "id": "test-cache" }],
+  "r2_buckets": [{ "binding": "BLOBS", "bucket_name": "present2u-test-blobs" }],
+  "durable_objects": {
+    "bindings": [{ "class_name": "Workspace", "name": "WORKSPACE" }]
+  },
+  "queues": {
+    "producers": [{ "binding": "EXPORTS", "queue": "present2u-test-exports" }]
+  },
+  "ai": { "binding": "AI" },
+  "browser": { "binding": "BROWSER" },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["Workspace"] }]
+}
